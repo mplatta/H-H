@@ -1,6 +1,7 @@
 package pl.com.harehounds.harehounds;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,27 +18,43 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity {
 
-    //private UserLoginTask mAuthTask = null;
+	//private UserLoginTask mAuthTask = null;
 
-    // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+	// UI references.
+	private AutoCompleteTextView mEmailView;
+	private EditText mPasswordView;
+	private View mProgressView;
+	private View mLoginFormView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		// Set up the login form.
+		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+		mPasswordView = (EditText) findViewById(R.id.password);
 //        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //            @Override
 //            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -48,51 +65,134 @@ public class LoginActivity extends AppCompatActivity  {
 //                return false;
 //            }
 //        });
+//
+		Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+		mEmailSignInButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				URL url = null;
+				String response = "";
+				try {
+					url = new URL("http://klata.cba.pl/testapki.php");
+					HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+					conn.setReadTimeout(10000);
+					conn.setConnectTimeout(15000);
+					conn.setRequestMethod("POST");
+					conn.setDoInput(true);
+					conn.setDoOutput(true);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //attemptLogin();
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage("oadasdsas")
-                                    .setNegativeButton("Retry", null)
-                                    .create()
-                                    .show();
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                        } catch (JSONException e) {
-                            //e.printStackTrace();
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(e.getMessage())
-                                    .setNegativeButton("Retry", null)
-                                    .create()
-                                    .show();
-                        }
-                    }
-                };
+					Uri.Builder builder = new Uri.Builder()
+							.appendQueryParameter("mail", mEmailView.getText().toString())
+							.appendQueryParameter("login", mPasswordView.getText().toString());
+					String query = builder.build().getEncodedQuery();
 
+					OutputStream os = conn.getOutputStream();
+					BufferedWriter writer = new BufferedWriter(
+							new OutputStreamWriter(os, "UTF-8"));
 
-                LoginRequest loginRequest = new LoginRequest(mEmailView.getText().toString(), mPasswordView.getText().toString(), responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
-            }
-        });
+					writer.write(query);
+					writer.flush();
+					writer.close();
+					os.close();
+					conn.connect();
+
+					int responseCode = conn.getResponseCode();
+
+					if (responseCode == HttpsURLConnection.HTTP_OK) {
+						String line;
+						BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+						while ((line = br.readLine()) != null) {
+							response += line;
+						}
+					} else {
+						response = "";
+					}
+
+					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
+					builders.setMessage(response)
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				} catch (MalformedURLException e) {
+					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
+					builders.setMessage(e.getMessage())
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				} catch (UnsupportedEncodingException e) {
+					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
+					builders.setMessage(e.getMessage())
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				} catch (ProtocolException e) {
+					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
+					builders.setMessage(e.getMessage())
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				} catch (IOException e) {
+					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
+					builders.setMessage(e.getMessage())
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				}
+//                Response.Listener<String> responseListener = new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                            builder.setMessage("oadasdsas")
+//                                    .setNegativeButton("Retry", null)
+//                                    .create()
+//                                    .show();
+//                            JSONObject jsonResponse = new JSONObject(response);
+//                            boolean success = jsonResponse.getBoolean("success");
+//                        } catch (JSONException e) {
+//                            //e.printStackTrace();
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//                            builder.setMessage(e.getMessage())
+//                                    .setNegativeButton("Retry", null)
+//                                    .create()
+//                                    .show();
+//                        }
+//                    }
+//                };
+//
+//
+//                LoginRequest loginRequest = new LoginRequest(mEmailView.getText().toString(), mPasswordView.getText().toString(), responseListener, LoginActivity.this);
+//                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+//                queue.add(loginRequest);
+			}
+		});
 //
 //        mLoginFormView = findViewById(R.id.login_form);
 //        mProgressView = findViewById(R.id.login_progress);
-    }
+	}
 
+	private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+		StringBuilder result = new StringBuilder();
+		boolean first = true;
+		for (Map.Entry<String, String> entry : params.entrySet()) {
+			if (first)
+				first = false;
+			else
+				result.append("&");
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
+			result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+			result.append("=");
+			result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+		}
+
+		return result.toString();
+	}
+
+	/**
+	 * Attempts to sign in or register the account specified by the login form.
+	 * If there are form errors (invalid email, missing fields, etc.), the
+	 * errors are presented and no actual login attempt is made.
+	 */
 //    private void attemptLogin() {
 ////        if (mAuthTask != null) {
 ////            return;
@@ -150,9 +250,9 @@ public class LoginActivity extends AppCompatActivity  {
 //        return password.length() > 4;
 //    }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
+	/**
+	 * Shows the progress UI and hides the login form.
+	 */
 //    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 //    private void showProgress(final boolean show) {
 //        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -186,10 +286,10 @@ public class LoginActivity extends AppCompatActivity  {
 //        }
 //    }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
+	/**
+	 * Represents an asynchronous login/registration task used to authenticate
+	 * the user.
+	 */
 //    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 //
 //        private final String mEmail;
@@ -239,13 +339,12 @@ public class LoginActivity extends AppCompatActivity  {
 //            showProgress(false);
 //        }
 //    }
+	public void goToRegistration(View view) {
+		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+	}
 
-    public void goToRegistration(View view) {
-        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-    }
-
-    public void goToMainMenu(View view) {
-        startActivity(new Intent(LoginActivity.this, MainMenuActivity.class));
-    }
+	public void goToMainMenu(View view) {
+		startActivity(new Intent(LoginActivity.this, MainMenuActivity.class));
+	}
 }
 
