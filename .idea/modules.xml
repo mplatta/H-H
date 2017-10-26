@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/H-H.iml" filepath="$PROJECT_DIR$/H-H.iml" />
-      <module fileurl="file://$PROJECT_DIR$/volley/H-volley.iml" filepath="$PROJECT_DIR$/volley/H-volley.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libararies/libararies.iml" filepath="$PROJECT_DIR$/libararies/libararies.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libararies/volley/libararies-volley.iml" filepath="$PROJECT_DIR$/libararies/volley/libararies-volley.iml" />
+      <module fileurl="file://$PROJECT_DIR$/volley/volley.iml" filepath="$PROJECT_DIR$/volley/volley.iml" />
     </modules>
   </component>
 </project>
