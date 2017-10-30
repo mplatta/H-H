@@ -23,11 +23,11 @@ public class LoginRequest extends StringRequest {
         params.put("email", email);
         params.put("password", password);
 
-//        AlertDialog.Builder builder = new AlertDialog.Builder(test);
-//        builder.setMessage(email)
-//                .setNegativeButton("Retry", null)
-//                .create()
-//                .show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(test);
+        builder.setMessage(params.toString())
+                .setNegativeButton("Retry", null)
+                .create()
+                .show();
     }
 
     @Override

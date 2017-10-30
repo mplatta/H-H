@@ -70,100 +70,31 @@ public class LoginActivity extends AppCompatActivity {
 		mEmailSignInButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				URL url = null;
-				String response = "";
-				try {
-					url = new URL("http://klata.cba.pl/testapki.php");
-					HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-					conn.setReadTimeout(10000);
-					conn.setConnectTimeout(15000);
-					conn.setRequestMethod("POST");
-					conn.setDoInput(true);
-					conn.setDoOutput(true);
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage("oadasdsas")
+                                    .setNegativeButton("Retry", null)
+                                    .create()
+                                    .show();
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                        } catch (JSONException e) {
+                            //e.printStackTrace();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage(e.getMessage())
+                                    .setNegativeButton("Retry", null)
+                                    .create()
+                                    .show();
+                        }
+                    }
+                };
 
-					Uri.Builder builder = new Uri.Builder()
-							.appendQueryParameter("mail", mEmailView.getText().toString())
-							.appendQueryParameter("login", mPasswordView.getText().toString());
-					String query = builder.build().getEncodedQuery();
-
-					OutputStream os = conn.getOutputStream();
-					BufferedWriter writer = new BufferedWriter(
-							new OutputStreamWriter(os, "UTF-8"));
-
-					writer.write(query);
-					writer.flush();
-					writer.close();
-					os.close();
-					conn.connect();
-
-					int responseCode = conn.getResponseCode();
-
-					if (responseCode == HttpsURLConnection.HTTP_OK) {
-						String line;
-						BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-						while ((line = br.readLine()) != null) {
-							response += line;
-						}
-					} else {
-						response = "";
-					}
-
-					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
-					builders.setMessage(response)
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
-				} catch (MalformedURLException e) {
-					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
-					builders.setMessage(e.getMessage())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
-				} catch (UnsupportedEncodingException e) {
-					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
-					builders.setMessage(e.getMessage())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
-				} catch (ProtocolException e) {
-					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
-					builders.setMessage(e.getMessage())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
-				} catch (IOException e) {
-					AlertDialog.Builder builders = new AlertDialog.Builder(LoginActivity.this);
-					builders.setMessage(e.getMessage())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
-				}
-//                Response.Listener<String> responseListener = new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-//                            builder.setMessage("oadasdsas")
-//                                    .setNegativeButton("Retry", null)
-//                                    .create()
-//                                    .show();
-//                            JSONObject jsonResponse = new JSONObject(response);
-//                            boolean success = jsonResponse.getBoolean("success");
-//                        } catch (JSONException e) {
-//                            //e.printStackTrace();
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-//                            builder.setMessage(e.getMessage())
-//                                    .setNegativeButton("Retry", null)
-//                                    .create()
-//                                    .show();
-//                        }
-//                    }
-//                };
-//
-//
-//                LoginRequest loginRequest = new LoginRequest(mEmailView.getText().toString(), mPasswordView.getText().toString(), responseListener, LoginActivity.this);
-//                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-//                queue.add(loginRequest);
+                LoginRequest loginRequest = new LoginRequest(mEmailView.getText().toString(), mPasswordView.getText().toString(), responseListener, LoginActivity.this);
+                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                queue.add(loginRequest);
 			}
 		});
 //
