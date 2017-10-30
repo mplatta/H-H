@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage("oadasdsas")
+                            builder.setMessage(response)
                                     .setNegativeButton("Retry", null)
                                     .create()
                                     .show();
