@@ -14,7 +14,7 @@ import java.util.Map;
  */
 
 public class LoginRequest extends StringRequest {
-    private static final String LOGIN_REQUEST_URL = "http://klata.cba.pl/testapp.php";
+    private static final String LOGIN_REQUEST_URL = "http://klata.cba.pl/testapp2.php";
     private Map<String, String> params;
 
     public LoginRequest(String email, String password, Response.Listener<String> listener, LoginActivity test) {

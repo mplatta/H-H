@@ -1,10 +1,15 @@
 package pl.com.harehounds.harehounds;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -18,28 +23,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
+import static java.sql.Types.NULL;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
 
-	//private UserLoginTask mAuthTask = null;
+	private UserLoginTask mAuthTask = null;
 
 	// UI references.
 	private AutoCompleteTextView mEmailView;
@@ -55,221 +46,182 @@ public class LoginActivity extends AppCompatActivity {
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-//                    attemptLogin();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//
+
 		Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 		mEmailSignInButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(response)
-                                    .setNegativeButton("Retry", null)
-                                    .create()
-                                    .show();
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                        } catch (JSONException e) {
-                            //e.printStackTrace();
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(e.getMessage())
-                                    .setNegativeButton("Retry", null)
-                                    .create()
-                                    .show();
-                        }
-                    }
-                };
-
-                LoginRequest loginRequest = new LoginRequest(mEmailView.getText().toString(), mPasswordView.getText().toString(), responseListener, LoginActivity.this);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+				attemptLogin();
 			}
 		});
-//
-//        mLoginFormView = findViewById(R.id.login_form);
-//        mProgressView = findViewById(R.id.login_progress);
+
+		mLoginFormView = findViewById(R.id.login_form);
+		mProgressView = findViewById(R.id.login_progress);
 	}
 
-	private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-		StringBuilder result = new StringBuilder();
-		boolean first = true;
-		for (Map.Entry<String, String> entry : params.entrySet()) {
-			if (first)
-				first = false;
-			else
-				result.append("&");
+	private void attemptLogin() {
+		// Reset errors.
+		mEmailView.setError(null);
+		mPasswordView.setError(null);
 
-			result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-			result.append("=");
-			result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+		// Store values at the time of the login attempt.
+		String email = mEmailView.getText().toString();
+		String password = mPasswordView.getText().toString();
+
+		boolean cancel = false;
+		View focusView = null;
+
+		// Check for a valid password, if the user entered one.
+		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+			mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = mPasswordView;
+			cancel = true;
 		}
 
-		return result.toString();
+		// Check for a valid email address.
+		if (TextUtils.isEmpty(email)) {
+			mEmailView.setError(getString(R.string.error_field_required));
+			focusView = mEmailView;
+			cancel = true;
+		} else if (!isEmailValid(email)) {
+			mEmailView.setError(getString(R.string.error_invalid_email));
+			focusView = mEmailView;
+			cancel = true;
+		}
+
+		if (cancel) {
+			focusView.requestFocus();
+		} else {
+			showProgress(true);
+			mAuthTask = new UserLoginTask(email, password);
+			mAuthTask.execute((Void) null);
+		}
 	}
 
-	/**
-	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
-	 * errors are presented and no actual login attempt is made.
-	 */
-//    private void attemptLogin() {
-////        if (mAuthTask != null) {
-////            return;
-////        }
-//
-//        // Reset errors.
-//        mEmailView.setError(null);
-//        mPasswordView.setError(null);
-//
-//        // Store values at the time of the login attempt.
-//        String email = mEmailView.getText().toString();
-//        String password = mPasswordView.getText().toString();
-//
-//        boolean cancel = false;
-//        View focusView = null;
-//
-//        // Check for a valid password, if the user entered one.
-//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-//            mPasswordView.setError(getString(R.string.error_invalid_password));
-//            focusView = mPasswordView;
-//            cancel = true;
-//        }
-//
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty(email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid(email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
-//
-//        if (cancel) {
-//            // There was an error; don't attempt login and focus the first
-//            // form field with an error.
-//            focusView.requestFocus();
-//        } else {
-//            // Show a progress spinner, and kick off a background task to
-//            // perform the user login attempt.
-//            //showProgress(true);
-////            mAuthTask = new UserLoginTask(email, password);
-////            mAuthTask.execute((Void) null);
-//        }
-//    }
-//
-//    private boolean isEmailValid(String email) {
-//        //TODO: Replace this with your own logic
-//        return email.contains("@");
-//    }
-//
-//    private boolean isPasswordValid(String password) {
-//        //TODO: Replace this with your own logic
-//        return password.length() > 4;
-//    }
+	private boolean isEmailValid(String email) {
+		//TODO: Replace this with your own logic
+		return email.contains("@");
+	}
+
+	private boolean isPasswordValid(String password) {
+		//TODO: Replace this with your own logic
+		return password.length() > 4;
+	}
 
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-//    private void showProgress(final boolean show) {
-//        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-//        // for very easy animations. If available, use these APIs to fade-in
-//        // the progress spinner.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-//
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//                }
-//            });
-//
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mProgressView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//                }
-//            });
-//        } else {
-//            // The ViewPropertyAnimator APIs are not available, so simply show
-//            // and hide the relevant UI components.
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//        }
-//    }
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+			mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+					show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+				}
+			});
+
+			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+			mProgressView.animate().setDuration(shortAnimTime).alpha(
+					show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+				}
+			});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
+	}
 
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-//    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-//
-//        private final String mEmail;
-//        private final String mPassword;
-//
-//        UserLoginTask(String email, String password) {
-//            mEmail = email;
-//            mPassword = password;
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(Void... params) {
-//            Response.Listener<String> responseListener = new Response.Listener<String>() {
-//
-//                @Override
-//                public void onResponse(String response) {
-//                    try {
-//                        JSONObject jsonResponse = new JSONObject(response);
-//                        boolean success = jsonResponse.getBoolean("success");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            };
-//
-//            LoginRequest loginRequest = new LoginRequest(mEmail, mPassword, responseListener);
-//
-//            return true;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(final Boolean success) {
-//            mAuthTask = null;
-//            showProgress(false);
-//
-//            if (success) {
-//                finish();
-//            } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
-//            }
-//        }
-//
-//        @Override
-//        protected void onCancelled() {
-//            mAuthTask = null;
-//            showProgress(false);
-//        }
-//    }
+	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+		private final String mEmail;
+		private final String mPassword;
+
+		private User user = null;
+
+		UserLoginTask(String email, String password) {
+			mEmail = email;
+			mPassword = password;
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			Response.Listener<String> responseListener = new Response.Listener<String>() {
+				@Override
+				public void onResponse(String response) {
+					try {
+						JSONObject jsonResponse = new JSONObject(response);
+						boolean success = jsonResponse.getBoolean("success");
+
+						if (success) {
+							// TODO: 31.10.2017 replace static nickname
+							user = new User(jsonResponse.getInt("userId"), "test", mEmail);
+						}
+					} catch (JSONException e) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+						builder.setMessage(e.getMessage())
+								.setNegativeButton("Retry", null)
+								.create()
+								.show();
+					}
+				}
+			};
+
+			LoginRequest loginRequest = new LoginRequest(mEmail, mPassword, responseListener, LoginActivity.this);
+			RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+			queue.add(loginRequest);
+
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			mAuthTask = null;
+			showProgress(false);
+
+			AlertDialog.Builder builderr = new AlertDialog.Builder(LoginActivity.this);
+			builderr.setMessage(user.getIdUser())
+					.setNegativeButton("Retry", null)
+					.create()
+					.show();
+
+			if (success) {
+				if (user != null) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+					builder.setMessage(user.getIdUser())
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				}
+			} else {
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.requestFocus();
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			mAuthTask = null;
+			showProgress(false);
+		}
+	}
+
 	public void goToRegistration(View view) {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
