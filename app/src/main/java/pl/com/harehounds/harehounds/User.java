@@ -5,7 +5,7 @@ package pl.com.harehounds.harehounds;
  */
 
 public class User {
-	private int idUser;
+	private Integer idUser;
 	private String nickName;
 	private String email;
 
@@ -25,15 +25,20 @@ public class User {
 		this.nickName = nickName;
 	}
 
-	public int getIdUser() {
+	public Integer getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
 	}
 
-	public User(int idUser, String nickName, String email) {
+	@Override
+	public String toString() {
+		return this.idUser.toString() + this.nickName + this.email;
+	}
+
+	public User(Integer idUser, String nickName, String email) {
 		this.idUser = idUser;
 		this.nickName = nickName;
 		this.email = email;

@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -23,14 +22,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static java.sql.Types.NULL;
-
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-
-	private UserLoginTask mAuthTask = null;
 
 	// UI references.
 	private AutoCompleteTextView mEmailView;
@@ -44,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_login);
 		// Set up the login form.
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
 		mPasswordView = (EditText) findViewById(R.id.password);
 
 		Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -93,8 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 			focusView.requestFocus();
 		} else {
 			showProgress(true);
-			mAuthTask = new UserLoginTask(email, password);
-			mAuthTask.execute((Void) null);
+			connectServer();
 		}
 	}
 
@@ -108,6 +101,45 @@ public class LoginActivity extends AppCompatActivity {
 		return password.length() > 4;
 	}
 
+	private void connectServer() {
+		final String email = mEmailView.getText().toString();
+		final String password = mPasswordView.getText().toString();
+
+		Response.Listener<String> responseListener = new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				try {
+					JSONObject jsonResponse = new JSONObject(response);
+					boolean success = jsonResponse.getBoolean("success");
+
+					if (success) {
+						showProgress(false);
+						int userID = jsonResponse.getInt("userId");
+						// TODO: 31.10.2017 replace static nickname
+						//goToMainMenu(userID, "test", email);
+						// TODO: 31.10.2017 add intent new activity
+
+					} else {
+						showProgress(false);
+						mEmailView.requestFocus();
+						mEmailView.setError(getString(R.string.error_invalid_email));
+						mPasswordView.setError(getString(R.string.error_incorrect_password));
+					}
+				} catch (JSONException e) {
+					showProgress(false);
+					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+					builder.setMessage(e.getMessage())
+							.setNegativeButton("Retry", null)
+							.create()
+							.show();
+				}
+			}
+		};
+
+		LoginRequest loginRequest = new LoginRequest(email, password, responseListener, LoginActivity.this);
+		RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+		queue.add(loginRequest);
+	}
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -144,90 +176,16 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-		private final String mEmail;
-		private final String mPassword;
-
-		private User user = null;
-
-		UserLoginTask(String email, String password) {
-			mEmail = email;
-			mPassword = password;
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			Response.Listener<String> responseListener = new Response.Listener<String>() {
-				@Override
-				public void onResponse(String response) {
-					try {
-						JSONObject jsonResponse = new JSONObject(response);
-						boolean success = jsonResponse.getBoolean("success");
-
-						if (success) {
-							// TODO: 31.10.2017 replace static nickname
-							user = new User(jsonResponse.getInt("userId"), "test", mEmail);
-						}
-					} catch (JSONException e) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-						builder.setMessage(e.getMessage())
-								.setNegativeButton("Retry", null)
-								.create()
-								.show();
-					}
-				}
-			};
-
-			LoginRequest loginRequest = new LoginRequest(mEmail, mPassword, responseListener, LoginActivity.this);
-			RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-			queue.add(loginRequest);
-
-			return true;
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-			mAuthTask = null;
-			showProgress(false);
-
-			AlertDialog.Builder builderr = new AlertDialog.Builder(LoginActivity.this);
-			builderr.setMessage(user.getIdUser())
-					.setNegativeButton("Retry", null)
-					.create()
-					.show();
-
-			if (success) {
-				if (user != null) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-					builder.setMessage(user.getIdUser())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
-				}
-			} else {
-				mPasswordView.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
-			}
-		}
-
-		@Override
-		protected void onCancelled() {
-			mAuthTask = null;
-			showProgress(false);
-		}
-	}
-
 	public void goToRegistration(View view) {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
 
-	public void goToMainMenu(View view) {
-		startActivity(new Intent(LoginActivity.this, MainMenuActivity.class));
+	public void goToMainMenu(Integer userId, String nickName, String email) {
+		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+		intent.putExtra("userId", userId);
+		intent.putExtra("nickName", nickName);
+		intent.putExtra("email", email);
+
+		LoginActivity.this.startActivity(intent);
 	}
 }
-

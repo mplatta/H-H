@@ -1,7 +1,5 @@
 package pl.com.harehounds.harehounds;
 
-import android.app.AlertDialog;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -22,12 +20,6 @@ public class LoginRequest extends StringRequest {
         params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(test);
-//        builder.setMessage(params.toString())
-//                .setNegativeButton("Retry", null)
-//                .create()
-//                .show();
     }
 
     @Override
