@@ -12,10 +12,11 @@ import java.util.Map;
  */
 
 public class LoginRequest extends StringRequest {
+    // TODO: 31.10.2017 change server address
     private static final String LOGIN_REQUEST_URL = "http://klata.cba.pl/testapp2.php";
     private Map<String, String> params;
 
-    public LoginRequest(String email, String password, Response.Listener<String> listener, LoginActivity test) {
+    public LoginRequest(String email, String password, Response.Listener<String> listener) {
         super(Request.Method.POST, LOGIN_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put("email", email);

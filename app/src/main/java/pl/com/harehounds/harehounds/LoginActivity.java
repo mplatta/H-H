@@ -26,7 +26,6 @@ import org.json.JSONObject;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
-
 	// UI references.
 	private AutoCompleteTextView mEmailView;
 	private EditText mPasswordView;
@@ -108,38 +107,38 @@ public class LoginActivity extends AppCompatActivity {
 		Response.Listener<String> responseListener = new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				try {
-					JSONObject jsonResponse = new JSONObject(response);
-					boolean success = jsonResponse.getBoolean("success");
+			try {
+				JSONObject jsonResponse = new JSONObject(response);
+				boolean success = jsonResponse.getBoolean("success");
 
-					if (success) {
-						showProgress(false);
-						int userID = jsonResponse.getInt("userId");
-						// TODO: 31.10.2017 replace static nickname
-						//goToMainMenu(userID, "test", email);
-						// TODO: 31.10.2017 add intent new activity
+				showProgress(false);
 
-					} else {
-						showProgress(false);
-						mEmailView.requestFocus();
-						mEmailView.setError(getString(R.string.error_invalid_email));
-						mPasswordView.setError(getString(R.string.error_incorrect_password));
-					}
-				} catch (JSONException e) {
-					showProgress(false);
-					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-					builder.setMessage(e.getMessage())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
+				if (success) {
+					int userID = jsonResponse.getInt("userId");
+					// TODO: 31.10.2017 replace static nickname
+					//goToMainMenu(userID, "test", email);
+				} else {
+					mEmailView.requestFocus();
+					mEmailView.setError(getString(R.string.error_invalid_email));
+					mPasswordView.setError(getString(R.string.error_incorrect_password));
 				}
+			} catch (JSONException e) {
+				showProgress(false);
+				// TODO: 31.10.2017 change error message
+				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+				builder.setMessage(e.getMessage())
+						.setNegativeButton("Retry", null)
+						.create()
+						.show();
+			}
 			}
 		};
 
-		LoginRequest loginRequest = new LoginRequest(email, password, responseListener, LoginActivity.this);
+		LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
 		RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
 		queue.add(loginRequest);
 	}
+
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -180,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
 
-	public void goToMainMenu(Integer userId, String nickName, String email) {
+	private void goToMainMenu(Integer userId, String nickName, String email) {
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
 		intent.putExtra("userId", userId);
 		intent.putExtra("nickName", nickName);
