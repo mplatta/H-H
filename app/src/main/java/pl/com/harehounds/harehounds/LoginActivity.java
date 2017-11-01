@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -110,7 +111,6 @@ public class LoginActivity extends AppCompatActivity {
 			try {
 				JSONObject jsonResponse = new JSONObject(response);
 				boolean success = jsonResponse.getBoolean("success");
-
 				showProgress(false);
 
 				if (success) {
@@ -118,18 +118,16 @@ public class LoginActivity extends AppCompatActivity {
 					// TODO: 31.10.2017 replace static nickname
 					goToMainMenu(userID, "test", email);
 				} else {
-					mEmailView.requestFocus();
-					mEmailView.setError(getString(R.string.error_invalid_email));
-					mPasswordView.setError(getString(R.string.error_incorrect_password));
+					signinFailed();
 				}
 			} catch (JSONException e) {
 				showProgress(false);
 				// TODO: 31.10.2017 change error message
 				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 				builder.setMessage(e.getMessage())
-						.setNegativeButton("Retry", null)
-						.create()
-						.show();
+					.setNegativeButton("Retry", null)
+					.create()
+					.show();
 			}
 			}
 		};
@@ -175,6 +173,13 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
+	private void signinFailed() {
+		mEmailView.requestFocus();
+		mEmailView.setError("This e-mail is incorrect");
+		mPasswordView.setError(getString(R.string.error_incorrect_password));
+		Toast.makeText(this, "E-mail or password is incorrect", Toast.LENGTH_SHORT).show();
+	}
+
 	public void goToRegistration(View view) {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
@@ -186,5 +191,6 @@ public class LoginActivity extends AppCompatActivity {
 		intent.putExtra("email", email);
 
 		LoginActivity.this.startActivity(intent);
+		this.finish();
 	}
 }

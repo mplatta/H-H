@@ -39,6 +39,7 @@ public class RegisterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 
+		// TODO: 01.11.2017 poprawic ten syf 
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mConfirmPasswordView = (EditText) findViewById(R.id.confirm_password);
@@ -59,6 +60,8 @@ public class RegisterActivity extends Activity {
 		initialize();   // Initialize inputs to Strings;
 		if (!validate()) {
 			Toast.makeText(this, "Signup has failed :(", Toast.LENGTH_SHORT).show();
+			mEmailView.setText(email);
+			mNickNameView.setText(nickName);
 		} else {
 			showProgress(true);
 			onSignupSuccess();
@@ -139,6 +142,7 @@ public class RegisterActivity extends Activity {
 		return email.contains("@");
 	}
 
+	// TODO: 01.11.2017 polecam zmienic nazwe tej funkcji na cos bardziej precyzyjnego
 	private void initialize() {
 		email = mEmailView.getText().toString().trim();
 		password = mPasswordView.getText().toString().trim();
@@ -147,8 +151,9 @@ public class RegisterActivity extends Activity {
 	}
 
 	/**
-	 * Shows the progress UI and hides the login form.
+	 * Shows the progress UI and hides the register form.
 	 */
+	// TODO: 01.11.2017 trzeba sprawdzic czy da sie to do jakiejs klasy statycznej czy dac 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
