@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 				if (success) {
 					int userID = jsonResponse.getInt("userId");
 					// TODO: 31.10.2017 replace static nickname
-					//goToMainMenu(userID, "test", email);
+					goToMainMenu(userID, "test", email);
 				} else {
 					mEmailView.requestFocus();
 					mEmailView.setError(getString(R.string.error_invalid_email));
