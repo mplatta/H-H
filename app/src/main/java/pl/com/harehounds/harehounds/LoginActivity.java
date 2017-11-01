@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.media.MediaCodec;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +24,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -32,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
 	private EditText mPasswordView;
 	private View mProgressView;
 	private View mLoginFormView;
+
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +97,10 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	private boolean isEmailValid(String email) {
+	public static boolean isEmailValid(String email) {
 		//TODO: Replace this with your own logic
-		return email.contains("@");
+		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+		return matcher.find();
 	}
 
 	private boolean isPasswordValid(String password) {
@@ -181,6 +188,11 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	public void goToRegistration(View view) {
+		mEmailView.setError(null);
+		mPasswordView.setError(null);
+		mEmailView.setText(null);
+		mPasswordView.setText(null);
+
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
 

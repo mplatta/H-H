@@ -115,7 +115,7 @@ public class RegisterActivity extends Activity {
 	private boolean validate() {
 		boolean valid = true;
 
-		if (!isEmailValid(email) || email.length() > 32 || email.isEmpty()) {
+		if (!LoginActivity.isEmailValid(email) || email.length() > 32 || email.isEmpty()) {
 			mEmailView.setError("Invalid e-mail!");
 			valid = false;
 		}
@@ -136,10 +136,6 @@ public class RegisterActivity extends Activity {
 		}
 
 		return valid;
-	}
-
-	private boolean isEmailValid(String email) {
-		return email.contains("@");
 	}
 
 	// TODO: 01.11.2017 polecam zmienic nazwe tej funkcji na cos bardziej precyzyjnego
