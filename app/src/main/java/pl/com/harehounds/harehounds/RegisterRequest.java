@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
 	// TODO: 31.10.2017 change server address
-	private static final String REGISTER_REQUEST_URL = "http://klata.cba.pl/testapp3.php";
+	private static final String REGISTER_REQUEST_URL = "http://42.0.139.255:5000/api/register";
 	private Map<String, String> params;
 
 	public RegisterRequest(String email, String nickName, String password, Response.Listener<String> listener) {
