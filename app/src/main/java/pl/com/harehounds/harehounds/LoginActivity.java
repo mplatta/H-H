@@ -96,17 +96,6 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	public static boolean isEmailValid(String email) {
-		//TODO: Replace this with your own logic
-		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
-		return matcher.find();
-	}
-
-	private boolean isPasswordValid(String password) {
-		//TODO: Replace this with your own logic
-		return password.length() > 4;
-	}
-
 	private void connectServer() {
 		final String email = mEmailView.getText().toString();
 		final String password = mPasswordView.getText().toString();
@@ -124,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 					// TODO: 31.10.2017 replace static nickname
 					goToMainMenu(userID, "test", email);
 				} else {
-					signinFailed();
+					signInFailed();
 				}
 			} catch (JSONException e) {
 				showProgress(false);
@@ -179,11 +168,14 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	private void signinFailed() {
-		mEmailView.requestFocus();
-		mEmailView.setError("This e-mail is incorrect");
-		mPasswordView.setError(getString(R.string.error_incorrect_password));
-		Toast.makeText(this, "E-mail or password is incorrect", Toast.LENGTH_SHORT).show();
+	public void goToMainMenu(Integer userId, String nickName, String email) {
+		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+		intent.putExtra("userId", userId);
+		intent.putExtra("nickName", nickName);
+		intent.putExtra("email", email);
+
+		LoginActivity.this.startActivity(intent);
+		this.finish();
 	}
 
 	public void goToRegistration(View view) {
@@ -195,13 +187,20 @@ public class LoginActivity extends AppCompatActivity {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
 
-	private void goToMainMenu(Integer userId, String nickName, String email) {
-		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-		intent.putExtra("userId", userId);
-		intent.putExtra("nickName", nickName);
-		intent.putExtra("email", email);
+	private void signInFailed() {
+		mEmailView.requestFocus();
+		mEmailView.setError("This e-mail is incorrect");
+		mPasswordView.setError(getString(R.string.error_incorrect_password));
+		Toast.makeText(this, "E-mail or password is incorrect", Toast.LENGTH_SHORT).show();
+	}
 
-		LoginActivity.this.startActivity(intent);
-		this.finish();
+	public static boolean isEmailValid(String email) {
+		Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+		return matcher.find();
+	}
+
+	private boolean isPasswordValid(String password) {
+		//TODO: Replace this with your own logic
+		return password.length() > 4;
 	}
 }
