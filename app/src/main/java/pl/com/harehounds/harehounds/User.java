@@ -1,10 +1,12 @@
 package pl.com.harehounds.harehounds;
 
+import java.io.Serializable;
+
 /**
  * Created by Michał on 31.10.2017.
  */
 
-public class User {
+public class User implements Serializable {
 	private Integer idUser;
 	private String nickName;
 	private String email;

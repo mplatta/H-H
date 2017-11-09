@@ -24,7 +24,6 @@ import org.json.JSONObject;
  * Created by Adam on 23.10.2017.
  * edit by Klata on 31.10.2017
  */
-
 public class RegisterActivity extends Activity {
 
 	private AutoCompleteTextView mEmailView;
@@ -97,33 +96,34 @@ public class RegisterActivity extends Activity {
 		Response.Listener<String> responseListener = new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				try {
-					JSONObject jsonResponse = new JSONObject(response);
-					boolean loginSuccess = jsonResponse.getBoolean("loginSuccess");
-					boolean mailSuccess = jsonResponse.getBoolean("mailSuccess");
+			try {
+				JSONObject jsonResponse = new JSONObject(response);
+				boolean loginSuccess = jsonResponse.getBoolean("loginSuccess");
+				boolean mailSuccess = jsonResponse.getBoolean("mailSuccess");
 
-					showProgress(false);
+				showProgress(false);
 
-					if (loginSuccess) {
-						if (mailSuccess) {
-							successSignUp();
-						} else {
-							mEmailView.requestFocus();
-							mEmailView.setError("E-mail already in use");
-						}
+				if (loginSuccess) {
+					if (mailSuccess) {
+						successSignUp();
 					} else {
-						mNickNameView.requestFocus();
-						mNickNameView.setError("Login already in use");
+						mEmailView.requestFocus();
+						mEmailView.setError("E-mail already in use");
 					}
-				} catch (JSONException e) {
-					// TODO: 31.10.2017 change error message
-					showProgress(false);
-					AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-					builder.setMessage(e.getMessage())
-							.setNegativeButton("Retry", null)
-							.create()
-							.show();
+				} else {
+					mNickNameView.requestFocus();
+					mNickNameView.setError("Login already in use");
 				}
+			} catch (JSONException e) {
+				// TODO: 31.10.2017 change error message
+				showProgress(false);
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+				builder.setMessage(e.getMessage())
+					.setNegativeButton("Retry", null)
+					.create()
+					.show();
+			}
 			}
 		};
 

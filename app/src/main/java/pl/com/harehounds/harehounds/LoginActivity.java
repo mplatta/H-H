@@ -1,11 +1,15 @@
 package pl.com.harehounds.harehounds;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -36,7 +40,10 @@ public class LoginActivity extends AppCompatActivity {
 	private View mProgressView;
 	private View mLoginFormView;
 
-	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+	private static final int REQUEST_FINE_LOCATION = 0;
+
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+			Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
 		// Set up the login form.
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 		mPasswordView = (EditText) findViewById(R.id.password);
+
+		checkPermission();
 
 		Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 		mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -56,6 +65,34 @@ public class LoginActivity extends AppCompatActivity {
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mProgressView = findViewById(R.id.login_progress);
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+	                                       String permissions[], int[] grantResults) {
+		switch (requestCode) {
+			case REQUEST_FINE_LOCATION: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0
+						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) { }
+				else {
+					// TODO: 09.11.2017 do smth :)
+				}
+
+				return;
+			}
+		}
+	}
+
+	private void checkPermission() {
+		int permissionCheck = ContextCompat.checkSelfPermission(LoginActivity.this,
+				Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(LoginActivity.this,
+					new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+					REQUEST_FINE_LOCATION);
+		}
 	}
 
 	private void attemptLogin() {
@@ -169,10 +206,10 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	public void goToMainMenu(Integer userId, String nickName, String email) {
+		User user = new User(userId, nickName, email);
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-		intent.putExtra("userId", userId);
-		intent.putExtra("nickName", nickName);
-		intent.putExtra("email", email);
+
+		intent.putExtra("User", user);
 
 		LoginActivity.this.startActivity(intent);
 		this.finish();

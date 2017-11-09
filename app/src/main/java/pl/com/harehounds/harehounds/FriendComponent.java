@@ -31,7 +31,6 @@ public class FriendComponent extends LinearLayout {
     private void init(Context context) {
         View.inflate(context, R.layout.friend_component, this);
         setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-
     }
 
     public void setNickText(String name) {
