@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by Adam on 05.11.2017.
+ * created by Adam on 05.11.2017.
  */
 
 public class FriendComponent extends LinearLayout {

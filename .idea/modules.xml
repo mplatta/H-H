@@ -3,14 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/H-H.iml" filepath="$PROJECT_DIR$/H-H.iml" />
-      <module fileurl="file://C:/Users/Adam/Desktop/hh/H-H/H-H.iml" filepath="C:/Users/Adam/Desktop/hh/H-H/H-H.iml" />
-      <module fileurl="file://C:/Users/Adam/Desktop/hare/H-H/H-H.iml" filepath="C:/Users/Adam/Desktop/hare/H-H/H-H.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:/Users/Adam/Desktop/hare/H-H/app/app.iml" filepath="C:/Users/Adam/Desktop/hare/H-H/app/app.iml" />
-      <module fileurl="file://C:/Users/Adam/Desktop/hh/H-H/app/app.iml" filepath="C:/Users/Adam/Desktop/hh/H-H/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/volley/volley.iml" filepath="$PROJECT_DIR$/volley/volley.iml" />
-      <module fileurl="file://C:/Users/Adam/Desktop/hh/H-H/volley/volley.iml" filepath="C:/Users/Adam/Desktop/hh/H-H/volley/volley.iml" />
-      <module fileurl="file://C:/Users/Adam/Desktop/hare/H-H/volley/volley.iml" filepath="C:/Users/Adam/Desktop/hare/H-H/volley/volley.iml" />
     </modules>
   </component>
 </project>

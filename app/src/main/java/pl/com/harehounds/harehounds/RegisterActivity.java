@@ -31,7 +31,6 @@ public class RegisterActivity extends Activity {
 	private View mProgressView;
 	private View mRegisterFormView;
 	private String email, password, confirm_password, nickName;
-	private Button regbtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +38,15 @@ public class RegisterActivity extends Activity {
 		setContentView(R.layout.activity_register);
 
 		// TODO: 01.11.2017 poprawic ten syf 
-		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mConfirmPasswordView = (EditText) findViewById(R.id.confirm_password);
-		mNickNameView = (EditText) findViewById(R.id.nickName);
-		mProgressView = (View) findViewById(R.id.register_progress);
-		mRegisterFormView = (View) findViewById(R.id.register_form);
-		regbtn = (Button) findViewById(R.id.email_register_button);
+		mEmailView = findViewById(R.id.email);
+		mPasswordView = findViewById(R.id.password);
+		mConfirmPasswordView = findViewById(R.id.confirm_password);
+		mNickNameView = findViewById(R.id.nickName);
+		mProgressView = findViewById(R.id.register_progress);
+		mRegisterFormView = findViewById(R.id.register_form);
 
-		regbtn.setOnClickListener(new View.OnClickListener() {
+		Button registerButton = findViewById(R.id.email_register_button);
+		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				register();
