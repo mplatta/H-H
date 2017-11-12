@@ -1,10 +1,10 @@
 package pl.com.harehounds.harehounds;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+        import android.content.Context;
+        import android.util.AttributeSet;
+        import android.view.View;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
 
 /**
  * created by Adam on 05.11.2017.

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainMenuActivity extends AppCompatActivity {
     public User user;
@@ -21,9 +22,10 @@ public class MainMenuActivity extends AppCompatActivity {
         user = (User)intent.getSerializableExtra("User");
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Nowa gra"));
         tabLayout.addTab(tabLayout.newTab().setText("Gry w pobliżu"));
         tabLayout.addTab(tabLayout.newTab().setText("Znajomi"));
-        tabLayout.addTab(tabLayout.newTab().setText("Ustawienia"));
+        tabLayout.addTab(tabLayout.newTab().setText("Settings"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -61,5 +63,9 @@ public class MainMenuActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
+
+    public void goToLobby(View view) {
+        startActivity(new Intent(MainMenuActivity.this, Lobby.class));
     }
 }

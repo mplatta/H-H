@@ -12,7 +12,8 @@ import java.util.Map;
  */
 class LoginRequest extends StringRequest {
     // TODO: 31.10.2017 change server address
-    private static final String LOGIN_REQUEST_URL = "http://42.0.139.255:5000/api/login";
+    //private static final String LOGIN_REQUEST_URL = "http://42.0.139.255:5000/api/login";
+    private static final String LOGIN_REQUEST_URL = "http://klata.cba.pl/testapp2.php";
     private Map<String, String> params;
 
     LoginRequest(String email, String password, Response.Listener<String> listener) {
