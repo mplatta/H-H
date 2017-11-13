@@ -225,6 +225,10 @@ public class LoginActivity extends AppCompatActivity {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
 
+	public void goTestLocation(View view) {
+		startActivity(new Intent(LoginActivity.this, SeekerActivity.class));
+	}
+
 	private void signInFailed() {
 		mEmailView.requestFocus();
 		mEmailView.setError("This e-mail is incorrect");

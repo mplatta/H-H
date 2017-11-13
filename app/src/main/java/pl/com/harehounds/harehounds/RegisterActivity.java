@@ -37,7 +37,6 @@ public class RegisterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 
-		// TODO: 01.11.2017 poprawic ten syf 
 		mEmailView = findViewById(R.id.email);
 		mPasswordView = findViewById(R.id.password);
 		mConfirmPasswordView = findViewById(R.id.confirm_password);
