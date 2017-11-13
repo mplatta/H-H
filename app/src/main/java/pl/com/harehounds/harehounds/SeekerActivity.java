@@ -10,12 +10,14 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class SeekerActivity extends AppCompatActivity {
 
 	private TextView mDirection;
+	private TextView mStatus;
 	private Button mButton;
 	private LocationManager locationManager;
 	private LocationListener locationListener;
@@ -26,6 +28,7 @@ public class SeekerActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_seeker);
 
 		mDirection = (TextView) findViewById(R.id.direction);
+		mStatus = (TextView) findViewById(R.id.status);
 		mButton = (Button) findViewById(R.id.getLoc);
 
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -37,12 +40,13 @@ public class SeekerActivity extends AppCompatActivity {
 
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {
-				mDirection.setText("zxc");
+				mDirection.setText(null);
+				mStatus.setText(provider + " / " + extras.toString());
 			}
 
 			@Override
 			public void onProviderEnabled(String provider) {
-				mDirection.setText(provider);
+				mStatus.setText(provider);
 			}
 
 			@Override
@@ -60,11 +64,35 @@ public class SeekerActivity extends AppCompatActivity {
 			//                                          int[] grantResults)
 			// to handle the case where the user grants the permission. See the documentation
 			// for ActivityCompat#requestPermissions for more details.
+			mStatus.setText("dupa");
+
 			return;
 		}
 
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
+
+//		Location lastKnowLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		//locationListener.onLocationChanged(lastKnowLocation);
+
+		mButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				if (ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//					// TODO: Consider calling
+//					//    ActivityCompat#requestPermissions
+//					// here to request the missing permissions, and then overriding
+//					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//					//                                          int[] grantResults)
+//					// to handle the case where the user grants the permission. See the documentation
+//					// for ActivityCompat#requestPermissions for more details.
+//					return;
+//				} else locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 200, 0, locationListener);
+			}
+		});
+
+//		mDirection.append(lastKnowLocation.toString());
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		//mDirection.setText("test");
 	}
 }
