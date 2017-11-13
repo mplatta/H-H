@@ -14,13 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class SeekerActivity extends AppCompatActivity {
 
 	private TextView mDirection;
 	private TextView mStatus;
-	private Button mButton;
-	private LocationManager locationManager;
-	private LocationListener locationListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +28,10 @@ public class SeekerActivity extends AppCompatActivity {
 
 		mDirection = (TextView) findViewById(R.id.direction);
 		mStatus = (TextView) findViewById(R.id.status);
-		mButton = (Button) findViewById(R.id.getLoc);
+		Button mButton = (Button) findViewById(R.id.getLoc);
 
-		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		locationListener = new LocationListener() {
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		LocationListener locationListener = new LocationListener() {
 			@Override
 			public void onLocationChanged(Location location) {
 				mDirection.append("\n " + location.getLatitude() + "   " + location.getLongitude());
@@ -51,8 +50,10 @@ public class SeekerActivity extends AppCompatActivity {
 
 			@Override
 			public void onProviderDisabled(String provider) {
-				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				startActivity(intent);
+				if (!Objects.equals(provider, "network")) {
+					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					startActivity(intent);
+				}
 			}
 		};
 
@@ -87,12 +88,13 @@ public class SeekerActivity extends AppCompatActivity {
 //					// for ActivityCompat#requestPermissions for more details.
 //					return;
 //				} else locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 200, 0, locationListener);
+				mDirection.setText(null);
 			}
 		});
 
 //		mDirection.append(lastKnowLocation.toString());
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-//		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		//mDirection.setText("test");
 	}
 }
