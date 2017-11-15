@@ -13,11 +13,10 @@ import java.util.Map;
 
 class RegisterRequest extends StringRequest {
 	// TODO: 31.10.2017 change server address
-	private static final String REGISTER_REQUEST_URL = "http://42.0.139.255:5000/api/register";
 	private Map<String, String> params;
 
 	RegisterRequest(String email, String nickName, String password, Response.Listener<String> listener) {
-		super(Request.Method.POST, REGISTER_REQUEST_URL, listener, null);
+		super(Request.Method.POST, ServerLinks.REGISTER_REQUEST_URL, listener, null);
 		params = new HashMap<>();
 		params.put("email", email);
 		params.put("nickName", nickName);
