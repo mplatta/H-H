@@ -11,15 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainMenuActivity extends AppCompatActivity {
-    public User user;
+    private UserSingleton user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Intent intent = getIntent();
-        user = (User)intent.getSerializableExtra("User");
+        user = UserSingleton.getInstance();
+        if (user == null) {
+            // TODO: 15.11.17 make back to login function
+        }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Nowa gra"));

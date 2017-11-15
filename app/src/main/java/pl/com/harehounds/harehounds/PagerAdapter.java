@@ -1,13 +1,12 @@
 package pl.com.harehounds.harehounds;
 
-/**
- * Created by Adam on 01.11.2017.
- */
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+/**
+ * created by Adam on 01.11.2017.
+ */
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 

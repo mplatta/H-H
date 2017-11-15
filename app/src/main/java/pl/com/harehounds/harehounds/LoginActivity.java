@@ -207,10 +207,8 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	public void goToMainMenu(Integer userId, String nickName, String email) {
-		User user = new User(userId, nickName, email);
+		UserSingleton user = UserSingleton.getInstance(userId, nickName, email);
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-
-		intent.putExtra("User", user);
 
 		LoginActivity.this.startActivity(intent);
 		this.finish();
