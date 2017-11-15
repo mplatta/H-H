@@ -1,38 +1,24 @@
 package pl.com.harehounds.harehounds;
 
-import java.io.Serializable;
-
 /**
  * created by klata on 31.10.2017.
  */
-
-class User implements Serializable {
+class UserSingletone {
 	private Integer idUser;
 	private String nickName;
 	private String email;
+	private static UserSingletone instance = null;
 
 	public String getEmail() {
 		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getNickName() {
 		return this.nickName;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
 	public Integer getIdUser() {
 		return this.idUser;
-	}
-
-	public void setIdUser(Integer idUser) {
-		this.idUser = idUser;
 	}
 
 	@Override
@@ -40,11 +26,23 @@ class User implements Serializable {
 		return this.idUser.toString() + this.nickName + this.email;
 	}
 
-	User(Integer idUser, String nickName, String email) {
+	public static UserSingletone getInstance(Integer idUser, String nickName, String email) {
+		if (instance == null) {
+			instance = new UserSingletone(idUser, nickName, email);
+		}
+
+		return instance;
+	}
+
+	public static UserSingletone getInstance() {
+		return instance;
+	}
+
+	private UserSingletone(Integer idUser, String nickName, String email) {
 		this.idUser = idUser;
 		this.nickName = nickName;
 		this.email = email;
 	}
 
-	public User() {}
+	private UserSingletone() {}
 }
