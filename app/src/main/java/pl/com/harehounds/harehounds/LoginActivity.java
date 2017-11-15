@@ -42,9 +42,9 @@ public class LoginActivity extends AppCompatActivity {
 	private View mLoginFormView;
 
 	private static final int REQUEST_FINE_LOCATION = 0;
-
+	// TODO: 15.11.2017 change pattern to standard regex
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-			Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+		Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,17 +82,6 @@ public class LoginActivity extends AppCompatActivity {
 					// TODO: 09.11.2017 do smth :)
 				}
 			}
-		}
-	}
-
-	private void checkPermission() {
-		int permissionCheck = ContextCompat.checkSelfPermission(LoginActivity.this,
-				Manifest.permission.ACCESS_FINE_LOCATION);
-
-		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(LoginActivity.this,
-					new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-					REQUEST_FINE_LOCATION);
 		}
 	}
 
@@ -141,27 +130,27 @@ public class LoginActivity extends AppCompatActivity {
 		Response.Listener<String> responseListener = new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-			try {
-				JSONObject jsonResponse = new JSONObject(response);
-				boolean success = jsonResponse.getBoolean("success");
-				showProgress(false);
+				try {
+					JSONObject jsonResponse = new JSONObject(response);
+					boolean success = jsonResponse.getBoolean("success");
+					showProgress(false);
 
-				if (success) {
-					int userID = jsonResponse.getInt("userId");
-					// TODO: 31.10.2017 replace static nickname
-					goToMainMenu(userID, "test", email);
-				} else {
-					signInFailed();
+					if (success) {
+						int userID = jsonResponse.getInt("userId");
+						// TODO: 31.10.2017 replace static nickname
+						goToMainMenu(userID, "test", email);
+					} else {
+						signInFailed();
+					}
+				} catch (JSONException e) {
+					showProgress(false);
+					// TODO: 31.10.2017 change error message
+					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+					builder.setMessage(e.getMessage())
+						.setNegativeButton("Retry", null)
+						.create()
+						.show();
 				}
-			} catch (JSONException e) {
-				showProgress(false);
-				// TODO: 31.10.2017 change error message
-				AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-				builder.setMessage(e.getMessage())
-					.setNegativeButton("Retry", null)
-					.create()
-					.show();
-			}
 			}
 		};
 
@@ -183,19 +172,19 @@ public class LoginActivity extends AppCompatActivity {
 
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 			mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-					show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+				show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationEnd(Animator animation) {
-					mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+				mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 				}
 			});
 
 			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
 			mProgressView.animate().setDuration(shortAnimTime).alpha(
-					show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+				show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationEnd(Animator animation) {
-					mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+				mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
 				}
 			});
 		} else {
@@ -206,8 +195,26 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
+	private void checkPermission() {
+		int permissionCheck = ContextCompat.checkSelfPermission(LoginActivity.this,
+				Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(LoginActivity.this,
+				new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+				REQUEST_FINE_LOCATION);
+		}
+	}
+
+	private void signInFailed() {
+		mEmailView.requestFocus();
+		mEmailView.setError("This e-mail is incorrect");
+		mPasswordView.setError(getString(R.string.error_incorrect_password));
+		Toast.makeText(this, "E-mail or password is incorrect", Toast.LENGTH_SHORT).show();
+	}
+
 	public void goToMainMenu(Integer userId, String nickName, String email) {
-		UserSingleton user = UserSingleton.getInstance(userId, nickName, email);
+		UserSingleton.getInstance(userId, nickName, email);
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
 
 		LoginActivity.this.startActivity(intent);
@@ -223,15 +230,9 @@ public class LoginActivity extends AppCompatActivity {
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 	}
 
+	// only for GPS test
 	public void goTestLocation(View view) {
 		startActivity(new Intent(LoginActivity.this, SeekerActivity.class));
-	}
-
-	private void signInFailed() {
-		mEmailView.requestFocus();
-		mEmailView.setError("This e-mail is incorrect");
-		mPasswordView.setError(getString(R.string.error_incorrect_password));
-		Toast.makeText(this, "E-mail or password is incorrect", Toast.LENGTH_SHORT).show();
 	}
 
 	public static boolean isEmailValid(String email) {
