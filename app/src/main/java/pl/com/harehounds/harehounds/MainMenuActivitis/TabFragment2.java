@@ -26,12 +26,11 @@ import pl.com.harehounds.harehounds.User.UserSingleton;
 public class TabFragment2 extends Fragment {
 	private EditText newFriendNickName;
 	private UserSingleton user = UserSingleton.getInstance();
-	private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		view = inflater.inflate(R.layout.tab_fragment_2,
+		View view = inflater.inflate(R.layout.tab_fragment_2,
 				container, false);
 
 		newFriendNickName = (EditText) view.findViewById(R.id.newFriendNickName);
@@ -76,6 +75,7 @@ public class TabFragment2 extends Fragment {
 				}
 			}
 		};
+
 		AddFriendRequest addFriendRequest = new AddFriendRequest(user.getIdUser(), nickName, responseListener);
 		RequestQueue queue = Volley.newRequestQueue(getActivity());
 		queue.add(addFriendRequest);
