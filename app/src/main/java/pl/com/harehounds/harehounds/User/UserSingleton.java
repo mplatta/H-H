@@ -1,9 +1,9 @@
-package pl.com.harehounds.harehounds;
+package pl.com.harehounds.harehounds.User;
 
 /**
  * created by klata on 31.10.2017.
  */
-class UserSingleton {
+public class UserSingleton {
 	private Integer idUser;
 	private String nickName;
 	private String email;

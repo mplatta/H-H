@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds;
+package pl.com.harehounds.harehounds.MainMenuActivitis;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -6,12 +6,13 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import pl.com.harehounds.harehounds.ServerPaths.ServerLinks;
+
 /**
  * created by klata on 15.11.17.
  */
 
-public class AddFriendRequest extends StringRequest {
-    // TODO: 31.10.2017 change server address
+class AddFriendRequest extends StringRequest {
     private Map<String, String> params;
 
     AddFriendRequest(Integer userId, String nickName, Response.Listener<String> listener) {

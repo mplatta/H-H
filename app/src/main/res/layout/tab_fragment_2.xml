@@ -38,38 +38,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-            </pl.com.harehounds.harehounds.FriendComponent>
+            </pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent>
 
-            <pl.com.harehounds.harehounds.FriendComponent
+            <pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent
                 android:id="@+id/friend"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-            </pl.com.harehounds.harehounds.FriendComponent>
+            </pl.com.harehounds.harehounds.MainMenuActivitis.FriendComponent>
         </LinearLayout>
     </ScrollView>
 

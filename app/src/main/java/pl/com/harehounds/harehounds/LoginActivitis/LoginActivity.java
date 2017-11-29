@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds;
+package pl.com.harehounds.harehounds.LoginActivitis;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -30,6 +30,12 @@ import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import pl.com.harehounds.harehounds.MainMenuActivitis.MainMenuActivity;
+import pl.com.harehounds.harehounds.R;
+import pl.com.harehounds.harehounds.RegisterActivity;
+import pl.com.harehounds.harehounds.SeekerActivity;
+import pl.com.harehounds.harehounds.User.UserSingleton;
 
 /**
  * A login screen that offers login via email/password.
@@ -214,6 +220,7 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	public void goToMainMenu(Integer userId, String nickName, String email) {
+//		showProgress(false);
 		UserSingleton.getInstance(userId, nickName, email);
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
 
