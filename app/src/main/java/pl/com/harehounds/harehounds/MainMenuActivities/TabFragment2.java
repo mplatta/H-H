@@ -50,4 +50,8 @@ public class TabFragment2 extends Fragment {
 		RequestQueue queue = Volley.newRequestQueue(getActivity());
 		queue.add(addFriendRequest);
 	}
+
+	private void loadFreinds() {
+
+	}
 }

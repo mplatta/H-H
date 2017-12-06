@@ -42,34 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-            </pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent>
-
-            <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
-                android:id="@+id/friend"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-            </pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent>
         </LinearLayout>
     </ScrollView>
 

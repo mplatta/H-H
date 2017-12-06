@@ -23,12 +23,15 @@ class SeekerLocationListener implements LocationListener {
 	private TextView mDirection;
 	private TextView mStatus;
 	private Checkpoint checkpoint;
-	private Float distance;
 
 	@Override
 	public void onLocationChanged(Location location) {
 		mDirection.append("\n " + location.getLatitude() + "   " + location.getLongitude());
-		distance = location.distanceTo(checkpoint.getLocation());
+		Float distance = location.distanceTo(checkpoint.getLocation());
+		Float bearing = location.bearingTo(checkpoint.getLocation());
+
+		mStatus.setText(CompassRose.getDirection(bearing));
+
 		if (minDistance >= distance) {
 			// TODO: 06.12.2017 zagadka
 		}
