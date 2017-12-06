@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.LoginActivitis;
+package pl.com.harehounds.harehounds.LoginActivities;
 
 import com.android.volley.Request;
 import com.android.volley.Response;

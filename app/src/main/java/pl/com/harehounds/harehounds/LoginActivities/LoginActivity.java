@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.LoginActivitis;
+package pl.com.harehounds.harehounds.LoginActivities;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -31,10 +31,10 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pl.com.harehounds.harehounds.MainMenuActivitis.MainMenuActivity;
+import pl.com.harehounds.harehounds.MainMenuActivities.MainMenuActivity;
 import pl.com.harehounds.harehounds.R;
 import pl.com.harehounds.harehounds.RegisterActivity;
-import pl.com.harehounds.harehounds.SeekerActivity;
+import pl.com.harehounds.harehounds.GameActivitis.SeekerActivities.SeekerActivity;
 import pl.com.harehounds.harehounds.User.UserSingleton;
 
 /**

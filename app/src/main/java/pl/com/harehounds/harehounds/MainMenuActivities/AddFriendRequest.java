@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.MainMenuActivitis;
+package pl.com.harehounds.harehounds.MainMenuActivities;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;

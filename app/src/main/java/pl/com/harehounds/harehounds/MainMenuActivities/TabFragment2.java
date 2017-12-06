@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.MainMenuActivitis;
+package pl.com.harehounds.harehounds.MainMenuActivities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

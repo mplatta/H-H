@@ -20,7 +20,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pl.com.harehounds.harehounds.LoginActivitis.LoginActivity;
+import pl.com.harehounds.harehounds.LoginActivities.LoginActivity;
 
 /**
  * Created by Adam on 23.10.2017.

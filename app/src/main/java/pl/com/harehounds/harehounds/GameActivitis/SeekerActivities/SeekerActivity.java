@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds;
+package pl.com.harehounds.harehounds.GameActivitis.SeekerActivities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Objects;
+
+import pl.com.harehounds.harehounds.R;
 
 public class SeekerActivity extends AppCompatActivity {
 

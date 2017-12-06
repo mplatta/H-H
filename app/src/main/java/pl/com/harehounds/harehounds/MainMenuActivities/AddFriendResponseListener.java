@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.MainMenuActivitis;
+package pl.com.harehounds.harehounds.MainMenuActivities;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;

@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.MainMenuActivitis;
+package pl.com.harehounds.harehounds.MainMenuActivities;
 
         import android.content.Context;
         import android.util.AttributeSet;
