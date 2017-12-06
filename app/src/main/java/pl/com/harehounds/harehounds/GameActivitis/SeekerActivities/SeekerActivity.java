@@ -1,12 +1,9 @@
 package pl.com.harehounds.harehounds.GameActivitis.SeekerActivities;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Objects;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 import pl.com.harehounds.harehounds.R;
 
@@ -22,6 +20,8 @@ public class SeekerActivity extends AppCompatActivity {
 
 	private TextView mDirection;
 	private TextView mStatus;
+
+	private Checkpoint checkpoint = new Checkpoint();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,33 +33,12 @@ public class SeekerActivity extends AppCompatActivity {
 		Button mButton = (Button) findViewById(R.id.getLoc);
 
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		LocationListener locationListener = new LocationListener() {
-			@Override
-			public void onLocationChanged(Location location) {
-				mDirection.append("\n " + location.getLatitude() + "   " + location.getLongitude());
-			}
+		LocationListener locationListener = new SeekerLocationListener(this, mDirection, mStatus, checkpoint);
 
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) {
-				mDirection.setText(null);
-				mStatus.setText(provider + " / " + extras.toString());
-			}
-
-			@Override
-			public void onProviderEnabled(String provider) {
-				mStatus.setText(provider);
-			}
-
-			@Override
-			public void onProviderDisabled(String provider) {
-				if (!Objects.equals(provider, "network")) {
-					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-					startActivity(intent);
-				}
-			}
-		};
-
-		if (ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+		if (ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+			!= PackageManager.PERMISSION_GRANTED &&
+			ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+			!= PackageManager.PERMISSION_GRANTED) {
 			// TODO: Consider calling
 			//    ActivityCompat#requestPermissions
 			// here to request the missing permissions, and then overriding
@@ -71,11 +50,6 @@ public class SeekerActivity extends AppCompatActivity {
 
 			return;
 		}
-
-
-//		Location lastKnowLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-		//locationListener.onLocationChanged(lastKnowLocation);
 
 		mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -94,9 +68,13 @@ public class SeekerActivity extends AppCompatActivity {
 			}
 		});
 
-//		mDirection.append(lastKnowLocation.toString());
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-		//mDirection.setText("test");
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
+
+		// take first checkpoint
+		SeekerGameResponseListener responseListener = new SeekerGameResponseListener(checkpoint);
+		SeekerGameRequest seekerGameRequest = new SeekerGameRequest(0, 0, responseListener);
+		RequestQueue queue = Volley.newRequestQueue(SeekerActivity.this);
+		queue.add(seekerGameRequest);
 	}
 }
