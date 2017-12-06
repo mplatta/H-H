@@ -1,5 +1,6 @@
 package pl.com.harehounds.harehounds.MainMenuActivities;
 
+import android.app.DownloadManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,11 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import pl.com.harehounds.harehounds.R;
+import pl.com.harehounds.harehounds.ServerPaths.ServerLinks;
 import pl.com.harehounds.harehounds.User.UserSingleton;
 
 /**
@@ -20,6 +25,7 @@ import pl.com.harehounds.harehounds.User.UserSingleton;
 public class TabFragment2 extends Fragment {
 	private EditText newFriendNickName;
 	private UserSingleton user = UserSingleton.getInstance();
+	private LinearLayout linearLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,7 +33,9 @@ public class TabFragment2 extends Fragment {
 		View view = inflater.inflate(R.layout.tab_fragment_2,
 				container, false);
 
+	    linearLayout = (LinearLayout) view.findViewById(R.id.friendsList);
 		newFriendNickName = (EditText) view.findViewById(R.id.newFriendNickName);
+
 		Button button = (Button) view.findViewById(R.id.addFriendButton);
 		button.setOnClickListener(new View.OnClickListener()
 		{
@@ -37,6 +45,8 @@ public class TabFragment2 extends Fragment {
 				addFriend();
 			}
 		});
+
+	    loadFreinds();
 
 		return view;
     }
@@ -52,6 +62,11 @@ public class TabFragment2 extends Fragment {
 	}
 
 	private void loadFreinds() {
+		String url = ServerLinks.GET_FRIEND_REQUEST_URL + "?userId=" + user.getIdUser().toString();
 
+		StringRequest loadFriendsRequest;
+		loadFriendsRequest = new StringRequest(Request.Method.GET, url, new LoadFriendsResponseListener(getActivity(), linearLayout), null);
+		RequestQueue queue = Volley.newRequestQueue(getActivity());
+		queue.add(loadFriendsRequest);
 	}
 }

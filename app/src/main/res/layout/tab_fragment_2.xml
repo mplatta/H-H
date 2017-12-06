@@ -34,13 +34,14 @@
         android:layout_marginTop="39dp">
 
         <LinearLayout
+            android:id="@+id/friendsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <pl.com.harehounds.harehounds.MainMenuActivities.FriendComponent
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
     </ScrollView>
