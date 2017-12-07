@@ -1,6 +1,7 @@
 package pl.com.harehounds.harehounds.MainMenuActivities;
 
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.android.volley.Response;
@@ -21,20 +22,22 @@ public class LoadFriendsResponseListener implements Response.Listener<String>, R
 	@Override
 	public void onResponse(String response) {
 		try {
-			JSONArray jsonResponse = new JSONArray(response);
-
-			for (int i = 0; i < jsonResponse.length(); i++) {
+			JSONArray jsonArray = new JSONArray(response);
+			Log.d("testp", ((Integer) jsonArray.length()).toString());
+			for (int i = 0; i < jsonArray.length(); i++) {
 				FriendComponent friend = new FriendComponent(activity);
-				friend.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-				JSONObject jsonObject = jsonResponse.getJSONObject(i);
-
-				friend.setNickText(jsonObject.getString("nickName"));
-
+//				friend.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+				JSONObject jsonFriend = jsonArray.getJSONObject(i);
+//				Log.d("dupa", jsonFriend.getString("login"));
+//				Log.d("testp", ((Integer) jsonArray.length()).toString());
+//				friend.setNickText(jsonFriend.getString("login"));
+//
 				linearLayout.addView(friend);
 			}
 
 		} catch (JSONException e) {
 			e.printStackTrace();
+			Log.d("e:", e.toString());
 		}
 	}
 
