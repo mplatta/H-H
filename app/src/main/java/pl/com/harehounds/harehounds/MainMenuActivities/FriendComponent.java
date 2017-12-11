@@ -1,7 +1,9 @@
 package pl.com.harehounds.harehounds.MainMenuActivities;
 
-        import android.content.Context;
+import android.app.Activity;
+import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,32 +15,38 @@ import pl.com.harehounds.harehounds.R;
  */
 
 public class FriendComponent extends LinearLayout {
-    TextView name;
+	private Context context;
+	private TextView name;
 
-    public FriendComponent(Context context) {
-        super(context);
-        init(context);
-    }
+	public FriendComponent(Context context) {
+		super(context);
+		this.context = context;
+		init(context);
+	}
 
-    public FriendComponent(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
+	public FriendComponent(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		this.context = context;
+		init(context);
+	}
 
-    public FriendComponent(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context);
-    }
+	public FriendComponent(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		this.context = context;
+		init(context);
+	}
 
-    private void init(Context context) {
-		name = new TextView(context);
-		name.setText("dupa");
-        View.inflate(context, R.layout.friend_component, this);
-        setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-		FriendComponent.this.addView(name);
-    }
+	private void init(Context context) {
+		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.friend_component, null);
 
-    public void setNickText(String name) {
-        this.name.setText(name);
-    }
+		name = (TextView) view.findViewById(R.id.name_text);
+		name.setText("test");
+		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+//		FriendComponent.this.addView(name);
+	}
+
+	public void setNickText(String name) {
+		this.name.setText(name);
+	}
 }
