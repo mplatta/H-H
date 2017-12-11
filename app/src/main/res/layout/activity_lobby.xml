@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pl.com.harehounds.harehounds.Lobby">
+    tools:context="pl.com.harehounds.harehounds.GameActivitis.Lobby">
 
     <TextView
         android:id="@+id/textView9"
@@ -13,7 +13,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Nazwa rozgrywki"
+        android:text="@string/nazwa_rozgrywki"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,20 +26,20 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="108dp"
-        android:text="Uciekający gracz:"
+        android:text="@string/uciekaj_cy_gracz"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView11"
+        app:layout_constraintEnd_toStartOf="@+id/player1"
         app:layout_constraintHorizontal_bias="0.224"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="72dp"
         android:layout_marginTop="108dp"
-        android:text="Gracz1"
+        android:text="@string/gracz1"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,34 +51,34 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
-        android:text="Goniący gracz:"
+        android:text="@string/goni_cy_gracz"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView13"
+        app:layout_constraintEnd_toStartOf="@+id/player2"
         app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/player2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="72dp"
         android:layout_marginTop="64dp"
-        android:text="Gracz2"
+        android:text="@string/gracz2"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/player1" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/startGameLobby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="144dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Zatwierdź gotowość do startu"
+        android:text="@string/zatwierd_gotowo_do_startu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

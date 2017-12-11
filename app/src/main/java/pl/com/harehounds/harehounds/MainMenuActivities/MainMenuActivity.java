@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import pl.com.harehounds.harehounds.Lobby;
+import pl.com.harehounds.harehounds.GameActivitis.Lobby;
 import pl.com.harehounds.harehounds.R;
 import pl.com.harehounds.harehounds.User.UserSingleton;
 

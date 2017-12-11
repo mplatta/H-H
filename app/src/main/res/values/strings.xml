@@ -23,4 +23,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="button_add_friend">Dodaj znajomego</string>
     <string name="umie_tutaj_zagadk">Umieść tutaj zagadkę</string>
+    <string name="nazwa_rozgrywki">Nazwa rozgrywki</string>
+    <string name="uciekaj_cy_gracz">Uciekający gracz:</string>
+    <string name="gracz1">Gracz1</string>
+    <string name="goni_cy_gracz">Goniący gracz:</string>
+    <string name="gracz2">Gracz2</string>
+    <string name="zatwierd_gotowo_do_startu">Zatwierdź gotowość do startu</string>
 </resources>

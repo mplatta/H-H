@@ -10,6 +10,7 @@ import org.json.JSONObject;
  */
 
 class SeekerGameResponseListener implements Response.Listener<String> {
+
 	private Checkpoint checkpoint;
 
 	@Override

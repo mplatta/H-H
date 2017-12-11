@@ -1,4 +1,4 @@
-package pl.com.harehounds.harehounds.GameActivitis.SeekerActivities;
+package pl.com.harehounds.harehounds.GameActivitis;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -9,19 +9,19 @@ import java.util.Map;
 import pl.com.harehounds.harehounds.ServerPaths.ServerLinks;
 
 /**
- * created by klata on 06.12.2017.
+ * created by klata on 11.12.2017.
  */
 
-class SeekerGameRequest extends StringRequest{
+public class LobbyStartGameRequest extends StringRequest {
 
 	private Map<String, String> params;
 
-	SeekerGameRequest(Integer gameId, Integer checkPointId, Response.Listener<String> listener) {
-		super(Method.POST, ServerLinks.GET_CHECKPOINT_POSITION, listener, null);
+	LobbyStartGameRequest(Integer gameId, Integer player, Response.Listener<String> listener) {
+		super(Method.POST, ServerLinks.GET_GAME, listener, null);
 
 		params = new HashMap<>();
 		params.put("gameId", gameId.toString());
-		params.put("checkPointId", checkPointId.toString());
+		params.put("player", player.toString());
 	}
 
 	@Override
