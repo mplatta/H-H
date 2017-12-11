@@ -15,7 +15,7 @@ import org.json.JSONObject;
  * created by klata on 06.12.2017.
  */
 
-public class LoadFriendsResponseListener implements Response.Listener<String>, Response.ErrorListener {
+class LoadFriendsResponseListener implements Response.Listener<String>, Response.ErrorListener {
 	private LinearLayout linearLayout = null;
 	private FragmentActivity activity = null;
 
