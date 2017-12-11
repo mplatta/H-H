@@ -16,7 +16,7 @@ public class RunnerGameRequest extends StringRequest {
 	private Map<String, String> params;
 
 	RunnerGameRequest(Double latitude, Double longitude, Response.Listener<String> listener) {
-		super(Method.POST, ServerLinks.GET_CHECKPOINT_POSITION, listener, null);
+		super(Method.POST, ServerLinks.SET_WAY_POINT_POSITION, listener, null);
 
 		params = new HashMap<>();
 		params.put("latitude", latitude.toString());
