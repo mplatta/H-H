@@ -33,7 +33,7 @@ public class MainMenuActivity extends AppCompatActivity {
 		tabLayout.addTab(tabLayout.newTab().setText("Nowa gra"));
 		tabLayout.addTab(tabLayout.newTab().setText("Gry w pobliżu"));
 		tabLayout.addTab(tabLayout.newTab().setText("Znajomi"));
-		tabLayout.addTab(tabLayout.newTab().setText("Settings"));
+//		tabLayout.addTab(tabLayout.newTab().setText("Settings"));
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 //		Button mAddFriend = (Button) findViewById(R.id.addFriendButton);
