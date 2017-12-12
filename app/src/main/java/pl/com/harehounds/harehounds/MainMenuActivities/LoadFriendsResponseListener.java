@@ -2,7 +2,9 @@ package pl.com.harehounds.harehounds.MainMenuActivities;
 
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,7 +18,7 @@ import org.json.JSONObject;
  */
 
 class LoadFriendsResponseListener implements Response.Listener<String>, Response.ErrorListener {
-	private LinearLayout linearLayout = null;
+	private LinearLayout linearLayoutFriends = null;
 	private FragmentActivity activity = null;
 
 	@Override
@@ -25,12 +27,19 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 			JSONArray jsonArray = new JSONArray(response);
 
 			for (int i = 0; i < jsonArray.length(); i++) {
-				FriendComponent friend = new FriendComponent(activity);
-//				friend.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				JSONObject jsonFriend = jsonArray.getJSONObject(i);
+				Log.d("friend", jsonFriend.toString());
 
-				friend.setNickText(jsonFriend.getString("login"));
+				LinearLayout linearLayout = new LinearLayout(activity);
+				TextView friend = new TextView(activity);
+				friend.setTextSize(24);
+				friend.setText(jsonFriend.getString("login"));
+				Button button = new Button(activity);
+
 				linearLayout.addView(friend);
+				linearLayout.addView(button);
+//				friend.setNickText(jsonFriend.getString("login"));
+				linearLayoutFriends.addView(linearLayout);
 			}
 
 		} catch (JSONException e) {
@@ -46,6 +55,6 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 
 	LoadFriendsResponseListener(FragmentActivity activity, LinearLayout linearLayout) {
 		this.activity = activity;
-		this.linearLayout = linearLayout;
+		this.linearLayoutFriends = linearLayout;
 	}
 }

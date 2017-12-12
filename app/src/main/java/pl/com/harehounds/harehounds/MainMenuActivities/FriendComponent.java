@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,10 +37,12 @@ public class FriendComponent extends LinearLayout {
 
 	private void init(Context context) {
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.friend_component, null);
+		inflater.inflate(R.layout.friend_component, this, false);
 
-		name = (TextView) view.findViewById(R.id.name_text);
-		name.setText("test");
+//		name = (TextView) getChildAt(0);
+
+//		View.inflate(context, R.layout.friend_component, this);
+
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 //		FriendComponent.this.addView(name);
 	}

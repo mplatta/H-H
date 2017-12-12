@@ -147,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
 						goToMainMenu(userID, "test", email);
 					} else {
 						signInFailed();
+						showProgress(false);
 					}
 				} catch (JSONException e) {
 					showProgress(false);
@@ -157,12 +158,14 @@ public class LoginActivity extends AppCompatActivity {
 						.create()
 						.show();
 				}
+//				showProgress(false);
 			}
 		};
 
 		LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
 		RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
 		queue.add(loginRequest);
+//		showProgress(false);
 	}
 
 	/**
