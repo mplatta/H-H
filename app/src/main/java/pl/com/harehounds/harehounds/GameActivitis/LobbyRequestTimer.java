@@ -2,6 +2,7 @@ package pl.com.harehounds.harehounds.GameActivitis;
 
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -21,11 +22,11 @@ class LobbyRequestTimer implements Runnable {
 
 	@Override
 	public void run() {
-		LobbyResponseListener responseListener = new LobbyResponseListener(mRunnerTextView, mSeekerTextView);
+		LobbyResponseListener responseListener = new LobbyResponseListener(activity, mRunnerTextView, mSeekerTextView);
 		LobbyRequest lobbyRequest = new LobbyRequest(gameId, responseListener);
 		RequestQueue queue = Volley.newRequestQueue(activity);
 		queue.add(lobbyRequest);
-
+		Log.d("testtimer", "test");
 		timerHandler.postDelayed(this, 5000);
 	}
 

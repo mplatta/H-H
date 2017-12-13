@@ -8,14 +8,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import pl.com.harehounds.harehounds.GameActivitis.Lobby;
+import pl.com.harehounds.harehounds.User.UserSingleton;
 
 /**
  * created by klata on 06.12.2017.
@@ -24,10 +27,12 @@ import pl.com.harehounds.harehounds.GameActivitis.Lobby;
 class LoadFriendsResponseListener implements Response.Listener<String>, Response.ErrorListener {
 	private LinearLayout linearLayoutFriends = null;
 	private FragmentActivity activity = null;
-	private Integer gameId = 0;
+	private Integer gameId = -1;
+	private UserSingleton user = UserSingleton.getInstance();
 
 	@Override
 	public void onResponse(String response) {
+		Log.d("resp", response);
 		try {
 			JSONArray jsonArray = new JSONArray(response);
 
@@ -45,11 +50,20 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 				if (gameId != 0) {
 					Button button = new Button(activity);
 					button.setOnClickListener(new View.OnClickListener() {
+						private Integer sGameId = gameId;
 						@Override
 						public void onClick(View v) {
+
+							JoinGameResponseListener responeListener = new JoinGameResponseListener();
+							JoinGameRequest joinGameRequest = new JoinGameRequest(sGameId, user.getIdUser(), responeListener);
+							RequestQueue queue = Volley.newRequestQueue(activity);
+							queue.add(joinGameRequest);
+
 							Intent intent = new Intent(activity, Lobby.class);
-							intent.putExtra("gameId", gameId.toString());
+							intent.putExtra("gameId", sGameId.toString());
+							Log.d("jsogameidfriend", sGameId.toString());
 							intent.putExtra("host", "false");
+
 							activity.startActivity(intent);
 						}
 					});

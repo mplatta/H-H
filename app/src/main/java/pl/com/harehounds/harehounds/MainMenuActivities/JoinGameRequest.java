@@ -1,5 +1,6 @@
-package pl.com.harehounds.harehounds.GameActivitis;
+package pl.com.harehounds.harehounds.MainMenuActivities;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
@@ -9,17 +10,17 @@ import java.util.Map;
 import pl.com.harehounds.harehounds.ServerPaths.ServerLinks;
 
 /**
- * created by klata on 11.12.2017.
+ * created by klata on 13.12.17.
  */
 
-class LobbyRequest extends StringRequest {
+public class JoinGameRequest extends StringRequest {
 	private Map<String, String> params;
 
-	LobbyRequest(Integer gameId, Response.Listener<String> listener) {
-		super(Method.POST, ServerLinks.GET_LOBBY, listener, null);
-
+	JoinGameRequest(Integer gameId, Integer userId, Response.Listener<String> listener) {
+		super(Request.Method.POST, ServerLinks.GAMES_JOIN, listener, null);
 		params = new HashMap<>();
 		params.put("gameId", gameId.toString());
+		params.put("userId", userId.toString());
 	}
 
 	@Override

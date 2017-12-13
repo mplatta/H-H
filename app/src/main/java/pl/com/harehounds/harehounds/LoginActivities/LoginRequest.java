@@ -13,7 +13,7 @@ import pl.com.harehounds.harehounds.ServerPaths.ServerLinks;
  * created by klata on 25.10.17.
  */
 class LoginRequest extends StringRequest {
-    // TODO: 31.10.2017 change server address
+
     private Map<String, String> params;
 
     LoginRequest(String email, String password, Response.Listener<String> listener) {

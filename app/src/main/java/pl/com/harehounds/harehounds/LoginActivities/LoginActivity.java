@@ -31,10 +31,10 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import pl.com.harehounds.harehounds.GameActivitis.SeekerActivities.SeekerActivity;
 import pl.com.harehounds.harehounds.MainMenuActivities.MainMenuActivity;
 import pl.com.harehounds.harehounds.R;
 import pl.com.harehounds.harehounds.RegisterActivity;
-import pl.com.harehounds.harehounds.GameActivitis.SeekerActivities.SeekerActivity;
 import pl.com.harehounds.harehounds.User.UserSingleton;
 
 /**
@@ -142,9 +142,8 @@ public class LoginActivity extends AppCompatActivity {
 					showProgress(false);
 
 					if (success) {
-						int userID = jsonResponse.getInt("userId");
-						// TODO: 31.10.2017 replace static nickname
-						goToMainMenu(userID, jsonResponse.getString("nickName"), email);
+						int userId = jsonResponse.getInt("userId");
+						goToMainMenu(userId, jsonResponse.getString("nickName"), email);
 					} else {
 						signInFailed();
 						showProgress(false);
@@ -226,7 +225,6 @@ public class LoginActivity extends AppCompatActivity {
 //		showProgress(false);
 		UserSingleton.getInstance(userId, nickName, email);
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-
 		LoginActivity.this.startActivity(intent);
 		this.finish();
 	}

@@ -2,6 +2,7 @@ package pl.com.harehounds.harehounds.GameActivitis;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class Lobby extends AppCompatActivity {
 		gameId = Integer.parseInt(getIntent().getStringExtra("gameId"));
 		host = Boolean.parseBoolean(getIntent().getStringExtra("host"));
 
+		Log.d("jso", gameId.toString());
+
 		if (user == null) {
 			// TODO: 13.12.17 wyloguj 
 		}
@@ -39,11 +42,12 @@ public class Lobby extends AppCompatActivity {
 		Button mStartGame = (Button) findViewById(R.id.startGameLobby);
 
 		timerRunnable = new LobbyRequestTimer(Lobby.this, gameId, mRunnerTextView, mSeekerTextView);
+		timerRunnable.run();
 
 		mStartGame.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LobbyStartGameResponseListener responseListener = new LobbyStartGameResponseListener(Lobby.this);
+				LobbyStartGameResponseListener responseListener = new LobbyStartGameResponseListener(Lobby.this, host, gameId);
 				LobbyStartGameRequest lobbyStartGameRequest = new LobbyStartGameRequest(gameId, user.getIdUser(), responseListener);
 				RequestQueue queue = Volley.newRequestQueue(Lobby.this);
 				queue.add(lobbyStartGameRequest);

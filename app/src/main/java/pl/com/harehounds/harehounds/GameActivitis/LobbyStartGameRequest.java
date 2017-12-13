@@ -17,7 +17,7 @@ public class LobbyStartGameRequest extends StringRequest {
 	private Map<String, String> params;
 
 	LobbyStartGameRequest(Integer gameId, Integer userId, Response.Listener<String> listener) {
-		super(Method.POST, ServerLinks.GET_GAME, listener, null);
+		super(Method.POST, ServerLinks.SET_READY_GAMES, listener, null);
 
 		params = new HashMap<>();
 		params.put("gameId", gameId.toString());
