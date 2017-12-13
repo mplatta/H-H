@@ -21,6 +21,7 @@ public class SeekerActivity extends AppCompatActivity {
 	private TextView mDirection;
 	private TextView mStatus;
 
+	private Integer gameId;
 	private Checkpoint checkpoint = new Checkpoint();
 
 	@Override
@@ -28,12 +29,14 @@ public class SeekerActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_seeker);
 
+		gameId = Integer.parseInt(getIntent().getStringExtra("gameId"));
+
 		mDirection = (TextView) findViewById(R.id.direction);
 		mStatus = (TextView) findViewById(R.id.status);
 		Button mButton = (Button) findViewById(R.id.getLoc);
 
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		LocationListener locationListener = new SeekerLocationListener(this, mDirection, mStatus, checkpoint);
+		LocationListener locationListener = new SeekerLocationListener(this, gameId, mDirection, mStatus, checkpoint);
 
 		if (ActivityCompat.checkSelfPermission(SeekerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
 			!= PackageManager.PERMISSION_GRANTED &&
@@ -46,7 +49,6 @@ public class SeekerActivity extends AppCompatActivity {
 			//                                          int[] grantResults)
 			// to handle the case where the user grants the permission. See the documentation
 			// for ActivityCompat#requestPermissions for more details.
-			mStatus.setText("dupa");
 
 			return;
 		}

@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
 					if (success) {
 						int userID = jsonResponse.getInt("userId");
 						// TODO: 31.10.2017 replace static nickname
-						goToMainMenu(userID, "test", email);
+						goToMainMenu(userID, jsonResponse.getString("nickName"), email);
 					} else {
 						signInFailed();
 						showProgress(false);

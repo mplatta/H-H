@@ -23,6 +23,7 @@ class SeekerLocationListener implements LocationListener {
 	private TextView mDirection;
 	private TextView mStatus;
 	private Checkpoint checkpoint;
+	private Integer gameId;
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -38,7 +39,7 @@ class SeekerLocationListener implements LocationListener {
 
 		if (checkpoint.getStatus()) {
 			SeekerGameResponseListener responseListener = new SeekerGameResponseListener(checkpoint);
-			SeekerGameRequest seekerGameRequest = new SeekerGameRequest(0, 0, responseListener);
+			SeekerGameRequest seekerGameRequest = new SeekerGameRequest(gameId, 0, responseListener);
 			RequestQueue queue = Volley.newRequestQueue(activity);
 			queue.add(seekerGameRequest);
 		}
@@ -63,10 +64,11 @@ class SeekerLocationListener implements LocationListener {
 		}
 	}
 
-	SeekerLocationListener(AppCompatActivity _activity,TextView _textView1, TextView _textView2, Checkpoint _checkpoint) {
+	SeekerLocationListener(AppCompatActivity _activity, Integer gameId, TextView _textView1, TextView _textView2, Checkpoint _checkpoint) {
 		activity = _activity;
 		mDirection = _textView1;
 		mStatus = _textView2;
 		checkpoint = _checkpoint;
+		this.gameId = gameId;
 	}
 }

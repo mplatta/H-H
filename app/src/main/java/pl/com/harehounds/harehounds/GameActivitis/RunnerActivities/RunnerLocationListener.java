@@ -18,11 +18,13 @@ import java.util.Objects;
 
 class RunnerLocationListener implements LocationListener {
 	private AppCompatActivity activity;
+	private Double latitude;
+	private Double longitude;
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Double latitude = location.getLatitude();
-		Double longitude = location.getLongitude();
+		latitude = location.getLatitude();
+		longitude = location.getLongitude();
 
 		RunnerGameResponseListener responseListener = new RunnerGameResponseListener(activity);
 		RunnerGameRequest runnerGameRequest = new RunnerGameRequest(latitude, longitude, responseListener);
@@ -48,7 +50,9 @@ class RunnerLocationListener implements LocationListener {
 		}
 	}
 
-	RunnerLocationListener(AppCompatActivity _activity) {
+	RunnerLocationListener(AppCompatActivity _activity, Double latitude, Double longitude) {
 		this.activity = _activity;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 }
