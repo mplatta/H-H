@@ -41,7 +41,11 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 				JSONObject jsonFriend = jsonArray.getJSONObject(i);
 				Log.d("friend", jsonFriend.toString());
 
+				//Horizontal layout containing nickname and button
+				//That will be placed in vertical layout: 'linearLayoutFriends'
 				LinearLayout linearLayout = new LinearLayout(activity);
+				linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
 				TextView friend = new TextView(activity);
 				friend.setTextSize(24);
 				friend.setText(jsonFriend.getString("login"));
@@ -49,6 +53,7 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 
 				if (gameId != 0) {
 					Button button = new Button(activity);
+					button.setText("Dołącz");
 					button.setOnClickListener(new View.OnClickListener() {
 						private Integer sGameId = gameId;
 						@Override
@@ -67,10 +72,15 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 							activity.startActivity(intent);
 						}
 					});
+
+					// Name text and button 'Dołącz' next to it
+					friend.setPadding(5,2,0,2);
+					button.setPadding(10,2,0,2);
+					linearLayout.addView(friend);
 					linearLayout.addView(button);
 				}
 
-				linearLayout.addView(friend);
+				//linearLayout.addView(friend);
 
 //				friend.setNickText(jsonFriend.getString("login"));
 				linearLayoutFriends.addView(linearLayout);
