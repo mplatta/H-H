@@ -6,6 +6,8 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -18,18 +20,42 @@ import java.util.Objects;
 
 class RunnerLocationListener implements LocationListener {
 	private AppCompatActivity activity;
-	private Double latitude;
-	private Double longitude;
+	private Integer gameId;
+	private TextView lat;
+	private TextView longi;
+	private Boolean start;
+	private TextView test;
 
 	@Override
 	public void onLocationChanged(Location location) {
-		latitude = location.getLatitude();
-		longitude = location.getLongitude();
 
-		RunnerGameResponseListener responseListener = new RunnerGameResponseListener(activity);
-		RunnerGameRequest runnerGameRequest = new RunnerGameRequest(latitude, longitude, responseListener);
-		RequestQueue queue = Volley.newRequestQueue(activity);
-		queue.add(runnerGameRequest);
+//		this.location = location;
+
+		Location tmp = new Location("");
+
+		if (start) {
+			lat.setText(((Double) location.getLatitude()).toString());
+			longi.setText(((Double) location.getLongitude()).toString());
+
+			start = false;
+		}
+
+		tmp.setLatitude(Double.parseDouble(lat.getText().toString()));
+		tmp.setLongitude(Double.parseDouble(longi.getText().toString()));
+
+
+		if (location.distanceTo(tmp) > 50) {
+			RunnerGameResponseListener responseListener = new RunnerGameResponseListener(activity);
+			RunnerGameRequest runnerGameRequest = new RunnerGameRequest(gameId, location.getLatitude(), location.getLongitude(), responseListener);
+			RequestQueue queue = Volley.newRequestQueue(activity);
+			queue.add(runnerGameRequest);
+			test.setText(((Double) location.getLatitude()).toString());
+		}
+		lat.setText(((Double) location.getLatitude()).toString());
+		longi.setText(((Double) location.getLongitude()).toString());
+
+		Log.d("loctest_latitude", ((Double)location.getLatitude()).toString());
+		Log.d("loctest_longitude", ((Double)location.getLongitude()).toString());
 	}
 
 	@Override
@@ -50,9 +76,12 @@ class RunnerLocationListener implements LocationListener {
 		}
 	}
 
-	RunnerLocationListener(AppCompatActivity _activity, Double latitude, Double longitude) {
+	RunnerLocationListener(Integer gameId, AppCompatActivity _activity, TextView lat, TextView longi, TextView test) {
 		this.activity = _activity;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.gameId = gameId;
+		this.lat = lat;
+		this.longi = longi;
+		this.start = true;
+		this.test = test;
 	}
 }

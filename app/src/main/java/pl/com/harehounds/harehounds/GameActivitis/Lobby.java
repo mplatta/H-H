@@ -21,7 +21,7 @@ public class Lobby extends AppCompatActivity {
 	private Integer gameId;
 	private Boolean host;
 
-	private Runnable timerRunnable;
+	private LobbyRequestTimer timerRunnable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class Lobby extends AppCompatActivity {
 		mSeekerTextView = (TextView) findViewById(R.id.player2);
 		Button mStartGame = (Button) findViewById(R.id.startGameLobby);
 
-		timerRunnable = new LobbyRequestTimer(Lobby.this, gameId, mRunnerTextView, mSeekerTextView);
-		timerRunnable.run();
+		timerRunnable = new LobbyRequestTimer(Lobby.this, gameId, host, mRunnerTextView, mSeekerTextView);
+//		timerRunnable.run();
 
 		mStartGame.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -53,5 +53,24 @@ public class Lobby extends AppCompatActivity {
 				queue.add(lobbyStartGameRequest);
 			}
 		});
+	}
+
+	@Override
+	public void onBackPressed() {
+		timerRunnable.Close();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		timerRunnable.Close();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		timerRunnable.run();
 	}
 }

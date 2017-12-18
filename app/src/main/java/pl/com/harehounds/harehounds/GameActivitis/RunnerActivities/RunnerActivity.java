@@ -2,13 +2,16 @@ package pl.com.harehounds.harehounds.GameActivitis.RunnerActivities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -18,19 +21,28 @@ import pl.com.harehounds.harehounds.R;
 public class RunnerActivity extends AppCompatActivity {
 
 	private Integer gameId;
-	private Double latitude;
-	private Double longitude;
+	private Location location = null;
+	private Double test = 0.0;
+	private TextView mtestLat;
+	private TextView mTestLong;
+	private TextView mTest;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_runner);
 
+		Location tmpLocation = this.location;
+
 		gameId = Integer.parseInt(getIntent().getStringExtra("gameId"));
+
+		mtestLat = (TextView) findViewById(R.id.latitudeShow);
+		mTestLong = (TextView) findViewById(R.id.longitudeShow);
+		mTest = (TextView) findViewById(R.id.changerInfo);
 
 		Button mButton = (Button) findViewById(R.id.setRiddleHere);
 		final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		LocationListener locationListener = new RunnerLocationListener(this, latitude, longitude);
+		LocationListener locationListener = new RunnerLocationListener(gameId, this, mtestLat, mTestLong, mTest);
 
 		if (ActivityCompat.checkSelfPermission(RunnerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
 			!= PackageManager.PERMISSION_GRANTED &&
@@ -47,8 +59,8 @@ public class RunnerActivity extends AppCompatActivity {
 			return;
 		}
 
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 50f, locationListener);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,  50f, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,  0, locationListener);
 
 		mButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -59,9 +71,17 @@ public class RunnerActivity extends AppCompatActivity {
 	}
 
 	private void putRiddle() {
-		PutRiddleResponseListener responseListener = new PutRiddleResponseListener();
-		PutRiddleRequest putRiddleRequest = new PutRiddleRequest(gameId, latitude, longitude, responseListener);
-		RequestQueue queue = Volley.newRequestQueue(RunnerActivity.this);
-		queue.add(putRiddleRequest);
+		Log.d("loctest_dupa", "dupa");
+		if (test != 0) {
+			Log.d("loctest_dupa", "maladupa");
+		}
+//		if (location != null) {
+//			Log.d("loctest_buton", ((Double) location.getLatitude()).toString());
+			PutRiddleResponseListener responseListener = new PutRiddleResponseListener();
+			PutRiddleRequest putRiddleRequest = new PutRiddleRequest(gameId, mtestLat.getText().toString(),
+					mTestLong.getText().toString(), responseListener);
+			RequestQueue queue = Volley.newRequestQueue(RunnerActivity.this);
+			queue.add(putRiddleRequest);
+//		}
 	}
 }

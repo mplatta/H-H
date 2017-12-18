@@ -1,5 +1,7 @@
 package pl.com.harehounds.harehounds.GameActivitis.RunnerActivities;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
@@ -15,13 +17,16 @@ import pl.com.harehounds.harehounds.ServerPaths.ServerLinks;
 class PutRiddleRequest extends StringRequest {
 	private Map<String, String> params;
 
-	PutRiddleRequest(Integer gameId, Double latitiude, Double longitiude, Response.Listener<String> listener) {
-		super(Method.POST, ServerLinks.GET_GAME, listener, null);
+	PutRiddleRequest(Integer gameId, String latitude, String longitude, Response.Listener<String> listener) {
+		super(Method.POST, ServerLinks.SET_WAY_POINT_POSITION, listener, null);
 
 		params = new HashMap<>();
+		params.put("pos_y", latitude);
+		params.put("pos_x", longitude);
+		params.put("riddle", "true");
 		params.put("gameId", gameId.toString());
-		params.put("pos_y", latitiude.toString());
-		params.put("pos_x", longitiude.toString());
+
+		Log.d("loctest_riddle", latitude);
 	}
 
 	@Override

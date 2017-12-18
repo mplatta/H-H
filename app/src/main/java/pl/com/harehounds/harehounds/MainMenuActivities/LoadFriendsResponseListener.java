@@ -27,7 +27,7 @@ import pl.com.harehounds.harehounds.User.UserSingleton;
 class LoadFriendsResponseListener implements Response.Listener<String>, Response.ErrorListener {
 	private LinearLayout linearLayoutFriends = null;
 	private FragmentActivity activity = null;
-	private Integer gameId = -1;
+	private Integer gameId = 0;
 	private UserSingleton user = UserSingleton.getInstance();
 
 	@Override
@@ -43,13 +43,17 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 
 				//Horizontal layout containing nickname and button
 				//That will be placed in vertical layout: 'linearLayoutFriends'
+
 				LinearLayout linearLayout = new LinearLayout(activity);
-				linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+//				linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 				TextView friend = new TextView(activity);
 				friend.setTextSize(24);
 				friend.setText(jsonFriend.getString("login"));
 				gameId = jsonFriend.getInt("gameId");
+
+				friend.setPadding(5,2,0,2);
+				linearLayout.addView(friend);
 
 				if (gameId != 0) {
 					Button button = new Button(activity);
@@ -74,9 +78,7 @@ class LoadFriendsResponseListener implements Response.Listener<String>, Response
 					});
 
 					// Name text and button 'Dołącz' next to it
-					friend.setPadding(5,2,0,2);
 					button.setPadding(10,2,0,2);
-					linearLayout.addView(friend);
 					linearLayout.addView(button);
 				}
 

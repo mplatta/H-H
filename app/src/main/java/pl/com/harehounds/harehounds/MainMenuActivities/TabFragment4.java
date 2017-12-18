@@ -20,10 +20,11 @@ import pl.com.harehounds.harehounds.User.UserSingleton;
 public class TabFragment4 extends Fragment {
     private Integer gameId;
     private UserSingleton user = UserSingleton.getInstance();
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_fragment_4, container, false);
+        view = inflater.inflate(R.layout.tab_fragment_4, container, false);
 
         Button startGame = (Button) view.findViewById(R.id.startNewGame);
         startGame.setOnClickListener(new View.OnClickListener() {
