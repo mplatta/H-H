@@ -44,12 +44,12 @@ class RunnerLocationListener implements LocationListener {
 		tmp.setLongitude(Double.parseDouble(longi.getText().toString()));
 
 
-		if (location.distanceTo(tmp) > 50) {
+		if (location.distanceTo(tmp) > 10) {
 			RunnerGameResponseListener responseListener = new RunnerGameResponseListener(activity);
 			RunnerGameRequest runnerGameRequest = new RunnerGameRequest(gameId, location.getLatitude(), location.getLongitude(), responseListener);
 			RequestQueue queue = Volley.newRequestQueue(activity);
 			queue.add(runnerGameRequest);
-			test.setText(((Double) location.getLatitude()).toString());
+			test.setText(((Float) location.distanceTo(tmp)).toString());
 		}
 		lat.setText(((Double) location.getLatitude()).toString());
 		longi.setText(((Double) location.getLongitude()).toString());

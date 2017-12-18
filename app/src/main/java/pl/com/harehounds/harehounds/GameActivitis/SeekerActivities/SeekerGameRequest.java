@@ -21,7 +21,7 @@ class SeekerGameRequest extends StringRequest{
 
 		params = new HashMap<>();
 		params.put("gameId", gameId.toString());
-		params.put("checkPointId", checkPointId.toString());
+//		params.put("checkPointId", checkPointId.toString());
 	}
 
 	@Override

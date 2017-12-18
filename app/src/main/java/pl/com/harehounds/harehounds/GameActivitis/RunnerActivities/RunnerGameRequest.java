@@ -22,7 +22,7 @@ class RunnerGameRequest extends StringRequest {
 		params.put("pos_y", latitude.toString());
 		params.put("pos_x", longitude.toString());
 		params.put("gameId", gameId.toString());
-		params.put("riddle", "false");
+		params.put("riddle", "False");
 	}
 
 	@Override

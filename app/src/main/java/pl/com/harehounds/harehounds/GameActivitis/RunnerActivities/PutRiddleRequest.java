@@ -23,7 +23,7 @@ class PutRiddleRequest extends StringRequest {
 		params = new HashMap<>();
 		params.put("pos_y", latitude);
 		params.put("pos_x", longitude);
-		params.put("riddle", "true");
+		params.put("riddle", "True");
 		params.put("gameId", gameId.toString());
 
 		Log.d("loctest_riddle", latitude);

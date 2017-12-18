@@ -70,12 +70,12 @@ public class SeekerActivity extends AppCompatActivity {
 			}
 		});
 
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, locationListener);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
 
 		// take first checkpoint
 		SeekerGameResponseListener responseListener = new SeekerGameResponseListener(checkpoint);
-		SeekerGameRequest seekerGameRequest = new SeekerGameRequest(0, 0, responseListener);
+		SeekerGameRequest seekerGameRequest = new SeekerGameRequest(gameId, 0, responseListener);
 		RequestQueue queue = Volley.newRequestQueue(SeekerActivity.this);
 		queue.add(seekerGameRequest);
 	}

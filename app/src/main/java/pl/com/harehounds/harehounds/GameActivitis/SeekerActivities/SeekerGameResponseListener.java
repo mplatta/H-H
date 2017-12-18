@@ -17,9 +17,21 @@ class SeekerGameResponseListener implements Response.Listener<String> {
 	public void onResponse(String response) {
 		try {
 			JSONObject jsonResponse = new JSONObject(response);
-			checkpoint.setLatitude(jsonResponse.getDouble("latitude"));
-			checkpoint.setLongitude(jsonResponse.getDouble("longitude"));
+			checkpoint.setLatitude(jsonResponse.getDouble("pos_y"));
+			checkpoint.setLongitude(jsonResponse.getDouble("pos_x"));
+
+			if (jsonResponse.getBoolean("flag")) {
+				JSONObject riddle = jsonResponse.getJSONObject("riddle");
+
+				checkpoint.setText(riddle.getString("text"));
+				checkpoint.setAnswer(riddle.getString("answer"));
+				checkpoint.setOptionA(riddle.getString("optionA"));
+				checkpoint.setOptionB(riddle.getString("optionB"));
+				checkpoint.setOptionC(riddle.getString("optionC"));
+				checkpoint.setOptionD(riddle.getString("optionD"));
+			}
 			checkpoint.setStatus(false);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
