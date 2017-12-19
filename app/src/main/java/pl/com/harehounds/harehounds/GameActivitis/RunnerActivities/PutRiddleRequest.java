@@ -1,7 +1,5 @@
 package pl.com.harehounds.harehounds.GameActivitis.RunnerActivities;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
@@ -25,8 +23,6 @@ class PutRiddleRequest extends StringRequest {
 		params.put("pos_x", longitude);
 		params.put("riddle", "True");
 		params.put("gameId", gameId.toString());
-
-		Log.d("loctest_riddle", latitude);
 	}
 
 	@Override

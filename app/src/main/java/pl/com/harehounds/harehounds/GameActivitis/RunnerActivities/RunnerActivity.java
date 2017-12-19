@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -73,17 +72,10 @@ public class RunnerActivity extends AppCompatActivity {
 	}
 
 	private void putRiddle() {
-		Log.d("loctest_dupa", "dupa");
-		if (test != 0) {
-			Log.d("loctest_dupa", "maladupa");
-		}
-//		if (location != null) {
-//			Log.d("loctest_buton", ((Double) location.getLatitude()).toString());
-			PutRiddleResponseListener responseListener = new PutRiddleResponseListener();
-			PutRiddleRequest putRiddleRequest = new PutRiddleRequest(gameId, mtestLat.getText().toString(),
-					mTestLong.getText().toString(), responseListener);
-			RequestQueue queue = Volley.newRequestQueue(RunnerActivity.this);
-			queue.add(putRiddleRequest);
-//		}
+		PutRiddleResponseListener responseListener = new PutRiddleResponseListener();
+		PutRiddleRequest putRiddleRequest = new PutRiddleRequest(gameId, mtestLat.getText().toString(),
+				mTestLong.getText().toString(), responseListener);
+		RequestQueue queue = Volley.newRequestQueue(RunnerActivity.this);
+		queue.add(putRiddleRequest);
 	}
 }

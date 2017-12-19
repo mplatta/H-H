@@ -13,18 +13,7 @@ class RunnerGameResponseListener implements Response.Listener<String> {
 
 	@Override
 	public void onResponse(String response) {
-//		try {
-//			JSONObject jsonObject = new JSONObject(response);
-//			Boolean success = jsonObject.getBoolean("success");
-//
-//			if (success) {
-//				Toast.makeText(activity, "Success!", Toast.LENGTH_LONG).show();
-//			} else {
-//				Toast.makeText(activity, "Fail!", Toast.LENGTH_LONG).show();
-//			}
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
+
 	}
 
 	RunnerGameResponseListener(AppCompatActivity activity) {

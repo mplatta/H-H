@@ -39,12 +39,7 @@ public class FriendComponent extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.friend_component, this, false);
 
-//		name = (TextView) getChildAt(0);
-
-//		View.inflate(context, R.layout.friend_component, this);
-
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
-//		FriendComponent.this.addView(name);
 	}
 
 	public void setNickText(String name) {

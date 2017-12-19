@@ -6,7 +6,6 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -55,9 +54,6 @@ class RunnerLocationListener implements LocationListener {
 		}
 		lat.setText(((Double) location.getLatitude()).toString());
 		longi.setText(((Double) location.getLongitude()).toString());
-
-		Log.d("loctest_latitude", ((Double)location.getLatitude()).toString());
-		Log.d("loctest_longitude", ((Double)location.getLongitude()).toString());
 	}
 
 	@Override

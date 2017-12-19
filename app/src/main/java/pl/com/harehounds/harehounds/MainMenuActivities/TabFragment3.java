@@ -1,7 +1,7 @@
 package pl.com.harehounds.harehounds.MainMenuActivities;
 
 /**
- * Created by Adam on 01.11.2017.
+ * created by Adam on 01.11.2017.
  */
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pl.com.harehounds.harehounds.GameActivitis.SeekerActivities.SeekerActivity;
 import pl.com.harehounds.harehounds.MainMenuActivities.MainMenuActivity;
 import pl.com.harehounds.harehounds.R;
 import pl.com.harehounds.harehounds.RegisterActivity;
@@ -222,7 +221,6 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	public void goToMainMenu(Integer userId, String nickName, String email) {
-//		showProgress(false);
 		UserSingleton.getInstance(userId, nickName, email);
 		Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
 		LoginActivity.this.startActivity(intent);
@@ -236,11 +234,6 @@ public class LoginActivity extends AppCompatActivity {
 		mPasswordView.setText(null);
 
 		startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-	}
-
-	// only for GPS test
-	public void goTestLocation(View view) {
-		startActivity(new Intent(LoginActivity.this, SeekerActivity.class));
 	}
 
 	public static boolean isEmailValid(String email) {

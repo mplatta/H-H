@@ -10,7 +10,6 @@ class Checkpoint {
 	private Integer id;
 	private Location location;
 	private String text;
-//	private String[] options;
 	private String answer;
 	private String optionA;
 	private String optionB;

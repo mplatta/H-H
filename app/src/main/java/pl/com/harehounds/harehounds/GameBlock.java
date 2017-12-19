@@ -1,6 +1,5 @@
 package pl.com.harehounds.harehounds;
 
-import android.widget.LinearLayout;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by Adam on 12.11.2017.
+ * created by Adam on 12.11.2017.
  */
 
 public class GameBlock extends LinearLayout {

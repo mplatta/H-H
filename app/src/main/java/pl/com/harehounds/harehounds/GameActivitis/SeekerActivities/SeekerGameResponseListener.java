@@ -29,7 +29,6 @@ class SeekerGameResponseListener implements Response.Listener<String> {
 				checkpoint.setOptionB(riddle.getString("optionB"));
 				checkpoint.setOptionC(riddle.getString("optionC"));
 				checkpoint.setOptionD(riddle.getString("optionD"));
-//				checkpoint.getLocation().setLatitude(Double.parseDouble(riddle));
 				checkpoint.setWayPoint(false);
 			} else checkpoint.setWayPoint(true);
 

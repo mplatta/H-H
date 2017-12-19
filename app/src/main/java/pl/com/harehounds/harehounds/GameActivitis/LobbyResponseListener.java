@@ -46,7 +46,6 @@ class LobbyResponseListener implements Response.Listener<String> {
 			Boolean startGame = jsonResponse.getBoolean("ready");
 			
 			if(startGame) {
-//				Log.d("gameready", "yep");
 				Intent intent;
 
 				if (host) {
@@ -56,7 +55,7 @@ class LobbyResponseListener implements Response.Listener<String> {
 				}
 
 				intent.putExtra("gameId", gameId.toString());
-//				intent.putExtra("host", host.toString());
+
 				activity.startActivity(intent);
 			}
 		} catch (JSONException e) {

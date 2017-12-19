@@ -27,23 +27,11 @@ public class MainMenuActivity extends AppCompatActivity {
 			// TODO: 15.11.17 make back to login function
 		}
 
-//		newFriendNickName = (EditText) findViewById(R.id.newFriendNickName);
-
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 		tabLayout.addTab(tabLayout.newTab().setText("Nowa gra"));
 		tabLayout.addTab(tabLayout.newTab().setText("Gry w pobliżu"));
 		tabLayout.addTab(tabLayout.newTab().setText("Znajomi"));
-//		tabLayout.addTab(tabLayout.newTab().setText("Settings"));
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-//		Button mAddFriend = (Button) findViewById(R.id.addFriendButton);
-//		mAddFriend.bringToFront();
-//		mAddFriend.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				addFriend();
-//			}
-//		});
 
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		final PagerAdapter adapter = new PagerAdapter
