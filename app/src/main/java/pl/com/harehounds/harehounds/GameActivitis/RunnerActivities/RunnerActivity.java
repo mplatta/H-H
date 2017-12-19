@@ -26,6 +26,7 @@ public class RunnerActivity extends AppCompatActivity {
 	private TextView mtestLat;
 	private TextView mTestLong;
 	private TextView mTest;
+	private TextView mDistanceLast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,11 @@ public class RunnerActivity extends AppCompatActivity {
 		mtestLat = (TextView) findViewById(R.id.latitudeShow);
 		mTestLong = (TextView) findViewById(R.id.longitudeShow);
 		mTest = (TextView) findViewById(R.id.changerInfo);
+		mDistanceLast =(TextView) findViewById(R.id.distanceLast);
 
 		Button mButton = (Button) findViewById(R.id.setRiddleHere);
 		final LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-		LocationListener locationListener = new RunnerLocationListener(gameId, this, mtestLat, mTestLong, mTest);
+		LocationListener locationListener = new RunnerLocationListener(gameId, this, mtestLat, mTestLong, mTest, mDistanceLast);
 
 		if (ActivityCompat.checkSelfPermission(RunnerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
 			!= PackageManager.PERMISSION_GRANTED &&

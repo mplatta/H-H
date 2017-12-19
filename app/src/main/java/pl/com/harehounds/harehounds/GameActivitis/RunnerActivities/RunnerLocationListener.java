@@ -25,6 +25,7 @@ class RunnerLocationListener implements LocationListener {
 	private TextView longi;
 	private Boolean start;
 	private TextView test;
+	private TextView mDistanceLast;
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -43,8 +44,9 @@ class RunnerLocationListener implements LocationListener {
 		tmp.setLatitude(Double.parseDouble(lat.getText().toString()));
 		tmp.setLongitude(Double.parseDouble(longi.getText().toString()));
 
+		mDistanceLast.setText("Odległość od ostatniej zagadki: " + ((Float)location.distanceTo(tmp)).toString());
 
-		if (location.distanceTo(tmp) > 10) {
+		if (location.distanceTo(tmp) > 50) {
 			RunnerGameResponseListener responseListener = new RunnerGameResponseListener(activity);
 			RunnerGameRequest runnerGameRequest = new RunnerGameRequest(gameId, location.getLatitude(), location.getLongitude(), responseListener);
 			RequestQueue queue = Volley.newRequestQueue(activity);
@@ -76,12 +78,14 @@ class RunnerLocationListener implements LocationListener {
 		}
 	}
 
-	RunnerLocationListener(Integer gameId, AppCompatActivity _activity, TextView lat, TextView longi, TextView test) {
+	RunnerLocationListener(Integer gameId, AppCompatActivity _activity, TextView lat, TextView longi,
+						   TextView test, TextView mDistanceLast) {
 		this.activity = _activity;
 		this.gameId = gameId;
 		this.lat = lat;
 		this.longi = longi;
 		this.start = true;
 		this.test = test;
+		this.mDistanceLast = mDistanceLast;
 	}
 }

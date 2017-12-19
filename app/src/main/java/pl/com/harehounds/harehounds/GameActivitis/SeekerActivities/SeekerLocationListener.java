@@ -6,6 +6,8 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -20,21 +22,45 @@ import java.util.Objects;
 class SeekerLocationListener implements LocationListener {
 	private final Float minDistance = 50f;
 	private AppCompatActivity activity;
-	private TextView mDirection;
-	private TextView mStatus;
-	private Checkpoint checkpoint;
+
+	private TextView mQuestion;
+	private Button mOptionA;
+	private Button mOptionB;
+	private Button mOptionC;
+	private Button mOptionD;
+
+	private Checkpoint checkpoint = Checkpoint.getInstance();
 	private Integer gameId;
 
 	@Override
 	public void onLocationChanged(Location location) {
-		mDirection.append("\n " + location.getLatitude() + "   " + location.getLongitude());
 		Float distance = location.distanceTo(checkpoint.getLocation());
 		Float bearing = location.bearingTo(checkpoint.getLocation());
 
-		mStatus.setText(CompassRose.getDirection(bearing));
+		if (minDistance <= distance) {
+				mOptionA.setVisibility(View.VISIBLE);
+				mOptionB.setVisibility(View.VISIBLE);
+				mOptionC.setVisibility(View.VISIBLE);
+				mOptionD.setVisibility(View.VISIBLE);
+			if (checkpoint.getWayPoint()) {
+				mQuestion.setText("uciekający są w odległości mniejszej niż 50m: " );
 
-		if (minDistance >= distance) {
-			// TODO: 06.12.2017 zagadka
+			} else {
+				checkpoint.setStatus(true);
+
+				mQuestion.setText(checkpoint.getText() + "\n" +
+						checkpoint.getOptionA() + "\n" +
+						checkpoint.getOptionB() + "\n" +
+						checkpoint.getOptionC() + "\n" +
+						checkpoint.getOptionD() + "\n");
+			}
+		} else {
+			mQuestion.setText("Do zagadki pozostalo ci: " + distance.toString() + "\n"
+					+ "kieruj się na: " + CompassRose.getDirection(bearing));
+			mOptionA.setVisibility(View.INVISIBLE);
+			mOptionB.setVisibility(View.INVISIBLE);
+			mOptionC.setVisibility(View.INVISIBLE);
+			mOptionD.setVisibility(View.INVISIBLE);
 		}
 
 		if (checkpoint.getStatus()) {
@@ -47,13 +73,13 @@ class SeekerLocationListener implements LocationListener {
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		mDirection.setText(null);
-		mStatus.setText(provider + " / " + extras.toString());
+//		mDirection.setText(null);
+//		mStatus.setText(provider + " / " + extras.toString());
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		mStatus.setText(provider);
+//		mStatus.setText(provider);
 	}
 
 	@Override
@@ -64,11 +90,15 @@ class SeekerLocationListener implements LocationListener {
 		}
 	}
 
-	SeekerLocationListener(AppCompatActivity _activity, Integer gameId, TextView _textView1, TextView _textView2, Checkpoint _checkpoint) {
+	SeekerLocationListener(AppCompatActivity _activity, Integer gameId, TextView mQuestion, Checkpoint _checkpoint,
+						   Button mOptionA, Button mOptionB, Button mOptionC, Button mOptionD) {
 		activity = _activity;
-		mDirection = _textView1;
-		mStatus = _textView2;
 		checkpoint = _checkpoint;
 		this.gameId = gameId;
+		this.mQuestion = mQuestion;
+		this.mOptionA = mOptionA;
+		this.mOptionB = mOptionB;
+		this.mOptionC = mOptionC;
+		this.mOptionD = mOptionD;
 	}
 }

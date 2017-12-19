@@ -17,6 +17,8 @@ class Checkpoint {
 	private String optionC;
 	private String optionD;
 	private Boolean status;
+	private Boolean wayPoint;
+	private static Checkpoint instance = null;
 
 	public Location getLocation() {
 		return location;
@@ -47,12 +49,22 @@ class Checkpoint {
 
 	}
 
-	Checkpoint(Double _latitude, Double _longitude) {
+	public static Checkpoint getInstance() {
+		if (instance == null) instance = new Checkpoint();
+		return instance;
+	}
+
+	public static Checkpoint getInstance(Double _latitude, Double _longitude) {
+		if (instance == null) instance = new Checkpoint(_latitude, _longitude);
+		return instance;
+	}
+
+	private Checkpoint (Double _latitude, Double _longitude) {
 		this.location.setLatitude(_latitude);
 		this.location.setLongitude(_longitude);
 	}
 
-	Checkpoint() {}
+	private Checkpoint() {}
 
 	public String getText() {
 		return text;
@@ -100,5 +112,43 @@ class Checkpoint {
 
 	public void setOptionD(String optionD) {
 		this.optionD = optionD;
+	}
+
+	Boolean answerQuestion(Integer i) {
+		Boolean tmp;
+
+		switch (i) {
+			case 0:
+				tmp = optionA.equals(answer);
+				status = tmp;
+				return tmp;
+			case 1:
+				tmp = optionB.equals(answer);
+				status = tmp;
+				return tmp;
+			case 2:
+				tmp = optionC.equals(answer);
+				status = tmp;
+				return tmp;
+			case 3:
+				tmp = optionD.equals(answer);
+				status = tmp;
+				return tmp;
+			default:
+				status = false;
+				return false;
+		}
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public Boolean getWayPoint() {
+		return wayPoint;
+	}
+
+	public void setWayPoint(Boolean wayPoint) {
+		this.wayPoint = wayPoint;
 	}
 }
